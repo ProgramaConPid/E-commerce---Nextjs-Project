@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { sendEmail } from "@/services/userLogged";
+import { logginMail } from "@/constant/emails/logginMail";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,8 +34,14 @@ export default function LoginPage() {
         setError("Credenciales incorrectas o usuario no encontrado.");
       } else {
         router.push("/");
+        sendEmail({
+          email: form.email,
+          asunto: "Inicio de sesión exitoso",
+          mensajeHtml: logginMail,
+        });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      console.error("Error en el inicio de sesión:", err);
       setError("Error al iniciar sesión.");
     } finally {
       setLoading(false);

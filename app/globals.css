@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --charcoal: #2E2E2E;
+  --grey: #F5F5F5;
+  --grey-color: #989898;
+}
+
 .container {
   width: 90%;
   max-width: 1200px;

@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import SessionProvider from "@/components/SessionProvider";
-import Navbar from "@/components/Navbar";
+import SessionProvider from "@/components/layout/SessionProvider";
+import Navbar from "@/components/layout/Navbar";
 
 export const metadata: Metadata = {
   title: "NextAuth App",

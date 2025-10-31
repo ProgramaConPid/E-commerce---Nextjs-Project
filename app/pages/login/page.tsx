@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "@/services/userLogged";
 import { logginMail } from "@/constant/emails/logginMail";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -123,9 +124,9 @@ export default function LoginPage() {
 
         <footer className="mt-6 text-center text-sm text-gray-500">
           ¿No tienes cuenta?{" "}
-          <a href="/register" className="text-indigo-600 hover:underline">
+          <Link href="/pages/register" className="text-indigo-600 hover:underline">
             Crear cuenta
-          </a>
+          </Link>
         </footer>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface FormData {
   name: string;
@@ -54,7 +55,6 @@ export default function RegisterPage() {
       }
 
       setMessage(data.msg || "Cuenta creada correctamente. Redirigiendo al login...");
-      // pequeña pausa para que el usuario vea el mensaje, luego redirigir
       setTimeout(() => router.push("/login"), 900);
     } catch (err: any) {
       setError(err?.message || "Error de red");
@@ -147,9 +147,9 @@ export default function RegisterPage() {
 
         <footer className="mt-6 text-center text-sm text-gray-500">
           ¿Ya tienes cuenta?{" "}
-          <a href="/login" className="text-indigo-600 hover:underline">
+          <Link href="/pages/login" className="text-indigo-600 hover:underline">
             Iniciar sesión
-          </a>
+          </Link>
         </footer>
       </div>
     </div>

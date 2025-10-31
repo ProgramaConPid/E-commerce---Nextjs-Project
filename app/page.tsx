@@ -11,11 +11,11 @@ export default function HomePage() {
           <h1 className="text-2xl font-semibold mb-2">No estás logueado</h1>
           <p className="text-gray-600 mb-4">
             Por favor{" "}
-            <a href="/login" className="text-indigo-600 hover:underline">
+            <a href="pages/login" className="text-indigo-600 hover:underline">
               inicia sesión
             </a>{" "}
             o{" "}
-            <a href="/register" className="text-indigo-600 hover:underline">
+            <a href="pages/register" className="text-indigo-600 hover:underline">
               crea una cuenta
             </a>
             .

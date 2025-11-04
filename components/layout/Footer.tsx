@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="footer__info container flex gap-15 justify-between">
         <div className="footer__content--logo w-[40%]">
           <Image src={"/images/white-logo.png"} alt="E-commerce Logo" width={100} height={100} />
-          <p className="leading-7 mt-6">We are a residential interior design firm located in Portland. Our boutique-studio offers more than</p>
+          <p className={`${nunitoSans.className} leading-7 mt-6`}>We are a residential interior design firm located in Portland. Our boutique-studio offers more than</p>
         </div>
         <div className="footer__content--services">
           <h3 className={ `footer__services--title text-[1.2rem] mb-3 text-(--white) ${raleway.className}`}>

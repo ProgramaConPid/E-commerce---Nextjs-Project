@@ -1,7 +1,14 @@
 import styles from "@/app/pages/home/home.module.css"
 import Button from "@/components/ui/Button"
 import Image from "next/image"
-import { raleway, nunitoSans } from "@/app/fonts/mainFonts"
+import { raleway, nunitoSans } from "@/app/fonts/mainFonts";
+import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from "react-icons/md";
+import { GiSmartphone } from "react-icons/gi";
+import { BsSmartwatch } from "react-icons/bs";
+import { IoCameraOutline } from "react-icons/io5";
+import { FiHeadphones } from "react-icons/fi";
+import { RiComputerLine } from "react-icons/ri";
+import { LuGamepad2 } from "react-icons/lu";
 
 const Home = () => {
   return (
@@ -23,7 +30,7 @@ const Home = () => {
 
       <div className={styles.grid__hero}>
         <div className={`${styles.grid__heroContent} ${styles.grid__playstation}`}>
-          <Image className={styles.grid__playstationImage} src={"/images/playStation-image.png"} alt="PlayStation Image" height={100} width={300} />
+          <Image className={styles.grid__playstationImage} src={"/images/PlayStation-image.png"} alt="PlayStation Image" height={100} width={300} />
           <div className={`${styles.grid__playstationTexts} ${styles.grid__texts}`}>
             <h3 className={`${styles.grid__playstationTitle} ${raleway.className}`}>Playstation 5</h3>
             <p className={`${styles.grid__playstationDescription} ${styles.grid__textsDescription} ${nunitoSans.className}`}>
@@ -58,6 +65,32 @@ const Home = () => {
             <Button text={"Shop Now"} textColor={"black"} buttonBg={"transparent"} size={"lg"} border={"black"} />
           </div>
           <Image className={styles.grid__macbookImage} src={"/images/MacBookPro14-image.png"} alt="Macbook Image" width={300} height={100} />
+        </div>
+      </div>
+
+      <div className={styles.browse__products}>
+        <div className={`container ${styles.browse__productsContainer}`}>
+          <div className={styles.browse__productsHeader}>
+            <h3 className={`${styles.browse__productsTitle} ${raleway.className}`}>
+              Browse By Category
+            </h3>
+
+            <div className={styles.browse__productsArrows}>
+              <MdOutlineArrowBackIos />
+              <MdOutlineArrowForwardIos />
+            </div>
+          </div>
+
+          <div className={styles.browse__productsItems}>
+            <div className={styles.browse__productsItem}>
+
+            </div>
+            <div className={styles.browse__productsItem}></div>
+            <div className={styles.browse__productsItem}></div>
+            <div className={styles.browse__productsItem}></div>
+            <div className={styles.browse__productsItem}></div>
+            <div className={styles.browse__productsItem}></div>
+          </div>
         </div>
       </div>
     </>

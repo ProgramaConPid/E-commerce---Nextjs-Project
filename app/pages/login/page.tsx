@@ -34,7 +34,7 @@ export default function LoginPage() {
       if (res?.error) {
         setError("Credenciales incorrectas o usuario no encontrado.");
       } else {
-        router.push("/");
+        router.push("/pages/home");
         sendEmail({
           email: form.email,
           asunto: "Inicio de sesión exitoso",

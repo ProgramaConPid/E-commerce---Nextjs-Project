@@ -6,6 +6,24 @@
   --charcoal: #2E2E2E;
   --grey: #F5F5F5;
   --grey-color: #989898;
+  --hero-purple: linear-gradient(90deg, #211C24 0%, #211C24 100%);
+}
+
+body {
+  background-color: var(--white);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+p, li {
+  color: var(--grey-color);
+}
+
+.social__icon {
+  font-size: 25px;
+  color: var(--white);
 }
 
 .container {

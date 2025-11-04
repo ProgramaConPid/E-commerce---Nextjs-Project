@@ -1,5 +1,5 @@
 "use client";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function HomePage() {
   const { data: session } = useSession();
@@ -15,7 +15,10 @@ export default function HomePage() {
               inicia sesión
             </a>{" "}
             o{" "}
-            <a href="pages/register" className="text-indigo-600 hover:underline">
+            <a
+              href="pages/register"
+              className="text-indigo-600 hover:underline"
+            >
               crea una cuenta
             </a>
             .
@@ -23,22 +26,4 @@ export default function HomePage() {
         </div>
       </div>
     );
-
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white p-10 rounded-2xl shadow-lg ring-1 ring-black/5 text-center max-w-sm w-full">
-        <h1 className="text-3xl font-semibold mb-3 text-gray-800">
-          ¡Bienvenido, {session.user?.name}!
-        </h1>
-        <p className="text-gray-600 mb-6">{session.user?.email}</p>
-
-        <button
-          onClick={() => signOut()}
-          className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2.5 rounded-lg shadow transition"
-        >
-          Cerrar sesión
-        </button>
-      </div>
-    </div>
-  );
 }

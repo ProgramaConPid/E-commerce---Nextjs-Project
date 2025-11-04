@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import SessionProvider from "@/components/layout/SessionProvider";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "NextAuth App",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <SessionProvider>
           <Navbar />
           <main>{children}</main>
+          <Footer />
         </SessionProvider>
       </body>
     </html>

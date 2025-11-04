@@ -1,0 +1,166 @@
+/* Hero Section */
+.hero {
+  width: auto;
+  background: var(--hero-purple);
+  overflow: hidden;
+}
+
+.hero__content {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero__contentSpan {
+  color: var(--grey-color);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.hero__contentTitle {
+  color: var(--white);
+  font-size: 4.5rem;
+  font-weight: lighter;
+  margin-bottom: .4rem;
+}
+
+.hero__contentTitleSpan {
+  font-weight: bold;
+}
+
+.hero__contentDescription {
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+}
+
+.hero__image {
+  height: 100%;
+  width: 400px;
+}
+
+/* Hero Grid Section */
+.grid__hero {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 
+  "playstation playstation macbook macbook"
+  "airpods applevision macbook macbook"
+  ;
+}
+
+.grid__heroContent {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+}
+
+.grid__texts {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: .5rem;
+}
+
+.grid__textsDescription {
+  font-size: 18px;
+}
+
+.grid__airpodsTexts,
+.grid__applevisionTexts {
+  width: 180px;
+  margin: auto;
+}
+
+.grid__playstationImage {
+  height: 100%;
+  width: 50%;
+  max-width: 450px;
+}
+
+.grid__applevisionImage {
+  width: 160px;
+}
+
+.grid__playstation {
+  height: 350px;
+  grid-area: playstation;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+.grid__playstationTexts {
+  width: 60%;
+  max-width: 380px;
+  margin: auto;
+}
+
+.grid__playstationTitle {
+  font-size: 2.5rem;
+}
+
+.grid__airpods {
+  grid-area: airpods;
+  background-color: var(--grey);
+  padding-right: 20px;
+}
+
+.grid__airpodsTitle {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.grid__airpodsTitle span {
+  font-weight: bold;
+}
+
+.grid__applevision {
+  color: var(--white);
+  grid-area: applevision;
+  background-color: var(--charcoal);
+  padding-block: 10px;
+  padding-right: 20px;
+}
+
+.grid__applevisionTitle {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.grid__applevisionTitle span {
+  font-weight: bold;
+}
+
+.grid__macbook {
+  padding-block: 30px;
+  grid-area: macbook;
+  background-color: var(--grey);
+  padding-left: 40px;
+}
+
+.grid__macbookTexts {
+  width: 60%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.grid__macbookTitle {
+  font-weight: lighter;
+  font-size: clamp(2rem, 8vw, 3rem);
+}
+
+.grid__macbookTitle span {
+  font-weight: bold;
+}
+
+.grid__macbookDescription {
+  margin-bottom: 1rem;
+}
+
+.grid__macbookImage {
+  height: 100%;
+  width: 350px;
+  object-fit: cover;
+}

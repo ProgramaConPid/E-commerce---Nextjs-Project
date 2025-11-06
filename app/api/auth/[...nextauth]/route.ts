@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/database/models/Users";
@@ -24,12 +25,17 @@ export const authOptions: NextAuthOptions = {
         const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) throw new Error("Contraseña incorrecta");
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return { id: String((user as any)._id), name: user.name, email: user.email };
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret:  process.env.GOOGLE_CLIENT_SECRET as string
+    })
   ],
   pages: {
-    signIn: "/login",
+    signIn: "/pages/login",
   },
   session: {
     strategy: "jwt",

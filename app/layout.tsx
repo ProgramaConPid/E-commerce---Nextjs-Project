@@ -5,8 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "NextAuth App",
-  description: "Login con NextAuth y MongoDB",
+  title: "Pidcommerce",
+  description: "E-commerce developed by Pid",
 };
 
 export default function RootLayout({

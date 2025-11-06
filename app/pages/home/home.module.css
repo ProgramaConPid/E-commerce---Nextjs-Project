@@ -2,7 +2,9 @@
 .hero {
   width: auto;
   background: var(--hero-purple);
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
+  z-index: -100;
 }
 
 .hero__content {

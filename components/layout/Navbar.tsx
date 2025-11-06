@@ -4,13 +4,28 @@ import Link from "next/link";
 import { raleway } from "@/app/fonts/mainFonts";
 import { useSession, signOut } from "next-auth/react";
 import { Heart, ShoppingCart, LogOut, Search, User } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  // cerrar menú al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <nav className="bg-(--white) shadow-md">
+    <nav className="bg-(--white) shadow-md z-[9999]">
       <div className="container py-3 flex items-center justify-between">
+        {/* LOGO */}
         <Link
           href="/"
           className={`text-2xl font-bold text-(--black) tracking-tight hover:opacity-90 transition ${raleway.className}`}
@@ -18,6 +33,7 @@ export default function Navbar() {
           Pidcommerce
         </Link>
 
+        {/* BUSCADOR */}
         <div className="container__input--search w-[350px] flex items-center rounded-[0.4rem] overflow-hidden">
           <div className="container__icon--search p-3 bg-(--grey)">
             <Search className="icon-search text-(--grey-color)" />
@@ -29,6 +45,7 @@ export default function Navbar() {
           />
         </div>
 
+        {/* LINKS */}
         <div className="nav__links flex gap-11 items-center">
           <div className="nav__links--text flex gap-9">
             <Link
@@ -57,31 +74,63 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <div className="nav__links--icons flex gap-5 items-center">
-            <Link
-              href="/pages/favorites"
-              className="nav__link--item text-(--black)"
-            >
+          {/* ICONOS DERECHA */}
+          <div
+            ref={menuRef}
+            className="nav__links--icons flex gap-5 items-center relative"
+          >
+            <Link href="/pages/favorites" className="text-(--black)">
               <Heart />
             </Link>
-            <Link
-              href="/pages/shopping"
-              className="nav__link--item text-(--black)"
-            >
+
+            <Link href="/pages/shopping" className="text-(--black)">
               <ShoppingCart />
             </Link>
 
-            {session ? (
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-(--black) hover:text-red-500 transition"
-                title="Cerrar sesión"
-              >
-                <LogOut />
-              </button>
+            {/* --- Avatar + Menú en flujo flex --- */}
+            {session?.user ? (
+              <div className="flex items-center gap-3">
+                {/* Botón del avatar */}
+                <button
+                  onClick={() => setMenuOpen((prev) => !prev)}
+                  className="focus:outline-none rounded-full border border-gray-300 hover:border-indigo-500 transition"
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <img
+                    src={session.user.image || "/default-avatar.png"}
+                    alt="Perfil"
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+
+                {/* Menú desplegable visible en flujo */}
+                {menuOpen && (
+                  <div className="flex flex-col bg-white border border-gray-200 rounded-md shadow-xl p-3 absolute top-12 right-0 w-56 z-[9999]">
+                    <div className="flex flex-col items-start gap-1 mb-3 border-b pb-2">
+                      <span className="font-semibold text-gray-900">
+                        {session.user.name}
+                      </span>
+                      <span className="text-sm text-gray-600 truncate">
+                        {session.user.email}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => signOut({ callbackUrl: "/" })}
+                      className="w-full flex items-center gap-2 text-red-500 hover:text-red-600 font-medium"
+                    >
+                      <LogOut size={18} />
+                      Cerrar sesión
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link
-                href="/login"
+                href="/pages/login"
                 className="nav__link--item text-(--black) hover:text-indigo-500 transition"
                 title="Iniciar sesión"
               >

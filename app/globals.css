@@ -3,8 +3,10 @@
 :root {
   --black: #000000;
   --white: #ffffff;
+  --white-grey: #FAFAFA;
   --charcoal: #2E2E2E;
   --grey: #F5F5F5;
+  --bold-grey: #EDEDED;
   --grey-color: #989898;
   --hero-purple: linear-gradient(90deg, #211C24 0%, #211C24 100%);
 }

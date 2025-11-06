@@ -12,9 +12,12 @@ export interface ButtonProps {
 }
 
 export interface ProductCardProps {
+  _id: string;
   heartIcon: JSX.Element;
-  image: string;
-  title: string;
+  images: string;
+  name: string;
   price: number;
   button: JSX.Element;
+  onClick: () => void;
+  onFavorite: () => void;
 }

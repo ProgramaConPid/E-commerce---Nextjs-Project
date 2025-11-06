@@ -1,0 +1,34 @@
+.product__card {
+  background-color: var(--bold-grey);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  border-radius: .6rem;
+  text-align: center;
+  gap: 1rem;
+}
+
+.product__cardTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.heartIcon__container {
+  color: var(--grey-color);
+  font-size: 40px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.product__cardPrice {
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+
+.product__image {
+  height: auto;
+  width: 150px;
+  object-fit: cover;
+}

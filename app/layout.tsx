@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import SessionProvider from "@/components/layout/SessionProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { Providers } from "@/providers/Providers";
 
 export const metadata: Metadata = {
   title: "Pidcommerce",
@@ -17,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="bg-gray-100 text-gray-900">
-        <SessionProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </SessionProvider>
+        <Providers>
+          <SessionProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </SessionProvider>
+        </Providers>
       </body>
     </html>
   );

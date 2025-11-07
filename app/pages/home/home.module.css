@@ -2,9 +2,6 @@
 .hero {
   width: auto;
   background: var(--hero-purple);
-  overflow: visible;
-  position: relative;
-  z-index: -100;
 }
 
 .hero__content {

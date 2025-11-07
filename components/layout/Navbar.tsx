@@ -5,13 +5,13 @@ import { raleway } from "@/app/fonts/mainFonts";
 import { useSession, signOut } from "next-auth/react";
 import { Heart, ShoppingCart, LogOut, Search, User } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // cerrar menú al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -23,9 +23,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-(--white) shadow-md z-[9999]">
-      <div className="container py-3 flex items-center justify-between">
-        {/* LOGO */}
+    <nav className="bg-(--white) shadow-md z-9999">
+      <div className="container__nav py-3 flex items-center justify-between">
         <Link
           href="/"
           className={`text-2xl font-bold text-(--black) tracking-tight hover:opacity-90 transition ${raleway.className}`}
@@ -100,16 +99,17 @@ export default function Navbar() {
                     overflow: "hidden",
                   }}
                 >
-                  <img
+                  <Image
                     src={session.user.image || "/default-avatar.png"}
                     alt="Perfil"
+                    width={100}
+                    height={100}
                     className="w-full h-full object-cover"
                   />
                 </button>
 
-                {/* Menú desplegable visible en flujo */}
                 {menuOpen && (
-                  <div className="flex flex-col bg-white border border-gray-200 rounded-md shadow-xl p-3 absolute top-12 right-0 w-56 z-[9999]">
+                  <div className="flex flex-col bg-white border border-gray-200 rounded-md shadow-xl p-3 absolute top-12 right-0 w-56 z-9999">
                     <div className="flex flex-col items-start gap-1 mb-3 border-b pb-2">
                       <span className="font-semibold text-gray-900">
                         {session.user.name}

@@ -25,7 +25,6 @@ export default function RegisterPage() {
   const validate = (data: FormData) => {
     if (!data.name.trim()) return "El nombre es requerido.";
     if (!data.email.trim()) return "El email es requerido.";
-    // email simple
     const emailRe = /^\S+@\S+\.\S+$/;
     if (!emailRe.test(data.email)) return "Ingresa un email válido.";
     if (data.password.length < 6)
@@ -62,7 +61,8 @@ export default function RegisterPage() {
       setMessage(
         data.msg || "Cuenta creada correctamente. Redirigiendo al login..."
       );
-      setTimeout(() => router.push("/login"), 900);
+      setTimeout(() => router.push("/pages/login"), 900);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err?.message || "Error de red");
     } finally {

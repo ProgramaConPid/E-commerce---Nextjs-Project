@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { sendEmail } from "@/services/userLogged";
 import { logginMail } from "@/constant/emails/logginMail";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -50,9 +51,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-indigo-950 via-slate-900 to-black px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-indigo-950 via-slate-900 to-black px-4">
       <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-8">
-        {/* Encabezado */}
         <header className="mb-6 text-center">
           <h1 className="text-3xl font-bold text-white tracking-tight">
             Iniciar sesión
@@ -63,7 +63,6 @@ export default function LoginPage() {
           </p>
         </header>
 
-        {/* Formulario */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <label className="block">
             <span className="text-sm font-medium text-gray-200">Email</span>
@@ -134,7 +133,7 @@ export default function LoginPage() {
             onClick={() => signIn("google", { callbackUrl: "/pages/home" })}
             className="w-full flex items-center justify-center gap-3 border p-2 rounded bg-(--white) cursor-pointer"
           >
-            <img src="/icons/Logo-google-icon.png" alt="Google" className="w-5 h-5" />
+            <Image src="/icons/Logo-google-icon.png" alt="Google" width={100} height={100} className="w-5 h-5" />
             Ingresar con Google
           </button>
         </form>

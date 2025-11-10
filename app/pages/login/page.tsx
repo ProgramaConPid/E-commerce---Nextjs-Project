@@ -20,7 +20,7 @@ export default function LoginPage() {
     setError(null);
 
     if (!form.email || !form.password) {
-      setError("Por favor ingresa tu correo y contraseña.");
+      setError("Please enter your email and password!");
       return;
     }
 
@@ -33,12 +33,12 @@ export default function LoginPage() {
       });
 
       if (res?.error) {
-        setError("Credenciales incorrectas o usuario no encontrado.");
+        setError("Incorrect credentials or user not found.");
       } else {
         router.push("/pages/home");
         sendEmail({
           email: form.email,
-          asunto: "Inicio de sesión exitoso",
+          asunto: "Login successfully",
           mensajeHtml: logginMail,
         });
       }
@@ -55,11 +55,11 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-8">
         <header className="mb-6 text-center">
           <h1 className="text-3xl font-bold text-white tracking-tight">
-            Iniciar sesión
+            Login
           </h1>
           <p className="text-sm text-gray-300 mt-1">
-            Accede a tu cuenta y disfruta de todo lo que ofrece{" "}
-            <span className="text-indigo-400 font-medium">TechNova</span>.
+            Access your account and enjoy everything it has to offer.{" "}
+            <span className="text-indigo-400 font-medium">Pidcommerce</span>.
           </p>
         </header>
 
@@ -68,7 +68,7 @@ export default function LoginPage() {
             <span className="text-sm font-medium text-gray-200">Email</span>
             <input
               type="email"
-              placeholder="tucorreo@ejemplo.com"
+              placeholder="johndoe@example.com"
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               className="mt-2 w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
               required
@@ -77,12 +77,12 @@ export default function LoginPage() {
 
           <label className="block relative">
             <span className="text-sm font-medium text-gray-200">
-              Contraseña
+              Password
             </span>
             <div className="mt-2 relative">
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Tu contraseña"
+                placeholder="Your Password"
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 className="w-full px-4 py-2 pr-12 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                 required
@@ -92,7 +92,7 @@ export default function LoginPage() {
                 onClick={() => setShowPassword((s) => !s)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-300 hover:text-white transition"
               >
-                {showPassword ? "Ocultar" : "Mostrar"}
+                {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </label>
@@ -134,18 +134,18 @@ export default function LoginPage() {
             className="w-full flex items-center justify-center gap-3 border p-2 rounded bg-(--white) cursor-pointer"
           >
             <Image src="/icons/Logo-google-icon.png" alt="Google" width={100} height={100} className="w-5 h-5" />
-            Ingresar con Google
+            Login with Google
           </button>
         </form>
 
         {/* Footer */}
         <footer className="mt-6 text-center text-sm text-gray-300">
-          ¿No tienes cuenta?{" "}
+          ¿Don&apos;t you have an account?{" "}
           <Link
             href="/pages/register"
             className="text-indigo-400 hover:underline font-medium"
           >
-            Crear cuenta
+            Create account
           </Link>
         </footer>
       </div>

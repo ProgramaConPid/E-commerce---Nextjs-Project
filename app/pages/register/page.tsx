@@ -23,12 +23,12 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const validate = (data: FormData) => {
-    if (!data.name.trim()) return "El nombre es requerido.";
-    if (!data.email.trim()) return "El email es requerido.";
+    if (!data.name.trim()) return "Name is required.";
+    if (!data.email.trim()) return "Email is required.";
     const emailRe = /^\S+@\S+\.\S+$/;
-    if (!emailRe.test(data.email)) return "Ingresa un email válido.";
+    if (!emailRe.test(data.email)) return "Enter a valid email.";
     if (data.password.length < 6)
-      return "La contraseña debe tener al menos 6 caracteres.";
+      return "The password must be at least 6 characters long.";
     return null;
   };
 
@@ -64,7 +64,7 @@ export default function RegisterPage() {
       setTimeout(() => router.push("/pages/login"), 900);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setError(err?.message || "Error de red");
+      setError(err?.message || "Network Error");
     } finally {
       setLoading(false);
     }
@@ -77,16 +77,16 @@ export default function RegisterPage() {
       <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8 text-white">
         <header className="mb-6 text-center">
           <h1 className="text-3xl font-semibold text-(--white)">
-            Crear cuenta
+            Create account
           </h1>
           <p className="text-sm text-gray-300 mt-2">
-            Regístrate para acceder a tu panel y descubrir increíbles ofertas.
+            Sign up to access your dashboard and discover amazing offers.
           </p>
         </header>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <label className="text-sm font-medium text-gray-200 block">
-            Nombre
+            Name
             <input
               type="text"
               value={form.name}
@@ -110,7 +110,7 @@ export default function RegisterPage() {
           </label>
 
           <label className="text-sm font-medium text-gray-200 block">
-            Contraseña
+            Password
             <div className="mt-2 relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -165,9 +165,9 @@ export default function RegisterPage() {
         </form>
 
         <footer className="mt-8 text-center text-sm text-gray-400">
-          ¿Ya tienes cuenta?{" "}
+          ¿You already have an account?{" "}
           <Link href="/pages/login" className="text-indigo-400 hover:underline">
-            Inicia sesión
+            Login
           </Link>
         </footer>
       </div>

@@ -6,6 +6,7 @@ if (!MONGODB_URI) {
   throw new Error("Por favor define MONGODB_URI en tu archivo .env.local");
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let cached = (global as any).mongoose;
 
 if (!cached) {

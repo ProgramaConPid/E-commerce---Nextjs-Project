@@ -22,7 +22,7 @@ describe('average', () => {
 
 describe('factorial', () => {
   it('calcula el factorial correctamente', () => {
-    expect(factorial(5)).toBe(120);
+    expect(factorial(5)).toBe(120); 
   });
 
   it('factorial de 0 es 1', () => {

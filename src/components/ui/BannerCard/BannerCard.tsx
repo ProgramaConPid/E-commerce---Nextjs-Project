@@ -21,8 +21,8 @@ const BannerCard = ({image, title, description, bannerBg, button}: BannerCardPro
 
   return (
     <div className={`${getBannerBg()} ${styles.banner__card}`}>
-      <Image src={image} alt="Product Banner Image" height={100} width={100} />
-      <h3 className={`${styles.banner__cardTitle} ${raleway.className}`}>
+      <Image className={styles.banner__cardImg} src={image} alt="Product Banner Image" height={300} width={300} />
+      <h3 className={`${styles.banner__cardTitle} ${title === "Macbook Pro" ? styles.title__white : ""} ${raleway.className}`}>
         {title}
       </h3>
       <p className={`${styles.banner__cardDescription} ${nunitoSans.className}`}>

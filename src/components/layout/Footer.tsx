@@ -4,10 +4,10 @@ import { nunitoSans, raleway } from "@/app/fonts/mainFonts";
 
 const Footer = () => {
   return (
-    <footer className="footer bg-(--black) py-20 px-40 flex flex-col  gap-3">
-      <div className="footer__info container flex gap-15 justify-between">
-        <div className="footer__content--logo w-[40%]">
-          <Image src={"/images/white-logo.png"} alt="E-commerce Logo" width={100} height={100} />
+    <footer className="footer bg-(--black) py-20 px-40 flex flex-col gap-5">
+      <div className="footer__info container flex gap-15 items-center justify-between">
+        <div className="footer__content--logo w-[40%] flex flex-col">
+          <Image className="h-[230px]" src={"/images/ecommerce-logo.png"} alt="E-commerce Logo" width={300} height={200} />
           <p className={`${nunitoSans.className} leading-7 mt-6`}>We are a residential interior design firm located in Portland. Our boutique-studio offers more than</p>
         </div>
         <div className="footer__content--services">

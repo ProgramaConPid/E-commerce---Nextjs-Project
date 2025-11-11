@@ -15,10 +15,15 @@ import { FiHeadphones } from "react-icons/fi";
 import { RiComputerLine } from "react-icons/ri";
 import { LuGamepad2 } from "react-icons/lu";
 import { useEffect, useState } from "react";
-import { getFeaturedProducts, getNewProducts, getSellerProducts } from "@/services/products";
+import {
+  getFeaturedProducts,
+  getNewProducts,
+  getSellerProducts,
+} from "@/services/products";
 import ProductCard from "@/components/ui/ProductCard/ProductCard";
 import { CiHeart } from "react-icons/ci";
 import type { ProductCardProps } from "@/interfaces/main";
+import BannerCard from "@/components/ui/BannerCard/BannerCard";
 
 const Home = () => {
   const [activeNewProducts, setActiveNewProducts] = useState(true);
@@ -54,32 +59,32 @@ const Home = () => {
   }, []);
 
   const changeFeaturedActive = () => {
-    setActiveNewProducts(false)
-    setActiveSellerProducts(false)
-    setActiveFeaturedProducts(true)
-  }
+    setActiveNewProducts(false);
+    setActiveSellerProducts(false);
+    setActiveFeaturedProducts(true);
+  };
 
   const changeSellerActive = () => {
-    setActiveFeaturedProducts(false)
-    setActiveNewProducts(false)
-    setActiveSellerProducts(true)
-  }
+    setActiveFeaturedProducts(false);
+    setActiveNewProducts(false);
+    setActiveSellerProducts(true);
+  };
 
   const changeNewProductsActive = () => {
-    if (activeNewProducts) return
+    if (activeNewProducts) return;
 
-    setActiveFeaturedProducts(false)
-    setActiveSellerProducts(false)
-    setActiveNewProducts(true)
-  }
+    setActiveFeaturedProducts(false);
+    setActiveSellerProducts(false);
+    setActiveNewProducts(true);
+  };
 
   const onFavoriteProduct = () => {
     console.log("Product added to favorites");
-  }
+  };
 
   const clickProduct = () => {
     console.log("Product clicked");
-  }
+  };
 
   return (
     <>
@@ -288,72 +293,142 @@ const Home = () => {
 
       <div className={`container ${styles.products__section}`}>
         <div className={styles.products__tags}>
-          <h3 className={`${raleway.className} ${styles.products__tagsText} ${activeNewProducts ? styles.active : ""}`} onClick={changeNewProductsActive}>New Arrival</h3>
-          <h3 className={`${raleway.className} ${styles.products__tagsText} ${activeSellerProducts ? styles.active : ""}`} onClick={changeSellerActive}>Bestseller</h3>
-          <h3 className={`${raleway.className} ${styles.products__tagsText} ${activeFeaturedProducts ? styles.active : ""}`} onClick={changeFeaturedActive}>Featured Products</h3>
+          <h3
+            className={`${raleway.className} ${styles.products__tagsText} ${
+              activeNewProducts ? styles.active : ""
+            }`}
+            onClick={changeNewProductsActive}
+          >
+            New Arrival
+          </h3>
+          <h3
+            className={`${raleway.className} ${styles.products__tagsText} ${
+              activeSellerProducts ? styles.active : ""
+            }`}
+            onClick={changeSellerActive}
+          >
+            Bestseller
+          </h3>
+          <h3
+            className={`${raleway.className} ${styles.products__tagsText} ${
+              activeFeaturedProducts ? styles.active : ""
+            }`}
+            onClick={changeFeaturedActive}
+          >
+            Featured Products
+          </h3>
         </div>
 
         <div className={styles.container__products}>
           {activeNewProducts &&
           Array.isArray(newProducts) &&
-          newProducts.length > 0 ? (
-            newProducts.map((product, i) => (
-              <ProductCard
-                key={product._id || i}
-                _id={product._id}
-                name={product.name}
-                images={product.images?.[0] || "/images/default.png"}
-                price={product.price}
-                heartIcon={<CiHeart />}
-                button={<Button text="Buy Now" textColor="white" buttonBg="black" size="md" border="none" />}
-                onFavorite={onFavoriteProduct}
-                onClick={clickProduct}
-              />
-            ))
-          ) : (
-            activeNewProducts && <p>No products found</p>
-          )}
+          newProducts.length > 0
+            ? newProducts.map((product, i) => (
+                <ProductCard
+                  key={product._id || i}
+                  _id={product._id}
+                  name={product.name}
+                  images={product.images?.[0] || "/images/default.png"}
+                  price={product.price}
+                  heartIcon={<CiHeart />}
+                  button={
+                    <Button
+                      text="Buy Now"
+                      textColor="white"
+                      buttonBg="black"
+                      size="md"
+                      border="none"
+                    />
+                  }
+                  onFavorite={onFavoriteProduct}
+                  onClick={clickProduct}
+                />
+              ))
+            : activeNewProducts && <p>No products found</p>}
 
           {activeSellerProducts &&
           Array.isArray(bestseller) &&
-          bestseller.length > 0 ? (
-            bestseller.map((product, i) => (
-              <ProductCard
-                key={product._id || i}
-                _id={product._id}
-                name={product.name}
-                images={product.images?.[0] || "/images/default.png"}
-                price={product.price}
-                heartIcon={<CiHeart />}
-                button={<Button text="Buy Now" textColor="white" buttonBg="black" size="md" border="none" />}
-                onFavorite={onFavoriteProduct}
-                onClick={clickProduct}
-              />
-            ))
-          ) : (
-            activeSellerProducts && <p>No products found</p>
-          )}
+          bestseller.length > 0
+            ? bestseller.map((product, i) => (
+                <ProductCard
+                  key={product._id || i}
+                  _id={product._id}
+                  name={product.name}
+                  images={product.images?.[0] || "/images/default.png"}
+                  price={product.price}
+                  heartIcon={<CiHeart />}
+                  button={
+                    <Button
+                      text="Buy Now"
+                      textColor="white"
+                      buttonBg="black"
+                      size="md"
+                      border="none"
+                    />
+                  }
+                  onFavorite={onFavoriteProduct}
+                  onClick={clickProduct}
+                />
+              ))
+            : activeSellerProducts && <p>No products found</p>}
 
           {activeFeaturedProducts &&
           Array.isArray(featured) &&
-          featured.length > 0 ? (
-            featured.map((product, i) => (
-              <ProductCard
-                key={product._id || i}
-                _id={product._id}
-                name={product.name}
-                images={product.images?.[0] || "/images/default.png"}
-                price={product.price}
-                heartIcon={<CiHeart />}
-                button={<Button text="Buy Now" textColor="white" buttonBg="black" size="md" border="none" />}
-                onFavorite={onFavoriteProduct}
-                onClick={clickProduct}
-              />
-            ))
-          ) : (
-            activeFeaturedProducts && <p>No products found</p>
-          )}
+          featured.length > 0
+            ? featured.map((product, i) => (
+                <ProductCard
+                  key={product._id || i}
+                  _id={product._id}
+                  name={product.name}
+                  images={product.images?.[0] || "/images/default.png"}
+                  price={product.price}
+                  heartIcon={<CiHeart />}
+                  button={
+                    <Button
+                      text="Buy Now"
+                      textColor="white"
+                      buttonBg="black"
+                      size="md"
+                      border="none"
+                    />
+                  }
+                  onFavorite={onFavoriteProduct}
+                  onClick={clickProduct}
+                />
+              ))
+            : activeFeaturedProducts && <p>No products found</p>}
         </div>
+      </div>
+
+      <div className={styles.banners__cards}>
+        <BannerCard
+          image="/images/banners/popular-products.png"
+          title="Popular Products"
+          description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
+          button={<Button text="Shop Now" textColor="black" buttonBg="transparent" border="black" size="lg" />}
+          bannerBg="white"
+        />
+        <BannerCard
+          image="/images/banners/ipad-pro.png"
+          title="Ipad Pro"
+          description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
+          button={<Button text="Shop Now" textColor="black" buttonBg="transparent" border="black" size="lg" />}
+          bannerBg="smooth-grey"
+        />
+        <BannerCard
+          description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
+          image="/images/banners/samsung-galaxy.png"
+          title="Samsung Galaxy"
+          button={<Button text="Shop Now" textColor="black" buttonBg="transparent" border="black" size="lg" />}
+          bannerBg="medium-grey"
+        />
+        <BannerCard
+          image="/images/banners/macbook-pro.png"
+          title="Macbook Pro"
+          description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
+          button={<Button text="Shop Now" textColor="white" buttonBg="transparent" border="white" size="lg" />}
+          bannerBg="bold-grey"
+        />
       </div>
     </>
   );

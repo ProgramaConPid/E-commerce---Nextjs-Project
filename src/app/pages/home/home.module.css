@@ -251,3 +251,13 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
+
+/* Banners Cards Section */
+
+.banners__cards {
+  width: auto;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

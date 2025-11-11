@@ -8,6 +8,9 @@ import { Providers } from "@/providers/Providers";
 export const metadata: Metadata = {
   title: "Pidcommerce",
   description: "E-commerce developed by Pid",
+  icons: {
+    icon: "/pidcommerce-favicon.png",
+  },
 };
 
 export default function RootLayout({

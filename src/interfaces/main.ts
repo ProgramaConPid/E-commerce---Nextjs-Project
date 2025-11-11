@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import { bannerBg, ButtonBorder, ButtonSize, TextColor } from '../types/types';
+import { bannerBg, ButtonBorder, ButtonSize, TextColor } from '@/types/types';
 
 type ButtonBg = "black" | "transparent";
 

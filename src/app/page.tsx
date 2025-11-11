@@ -1,6 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import SimplePage from "./features/demo/SimplePage";
 
 export default function HomePage() {
   const { data: session } = useSession();
@@ -38,6 +39,9 @@ export default function HomePage() {
             </a>
           </div>
         </div>
+
+
+        <SimplePage />
       </div>
     );
 

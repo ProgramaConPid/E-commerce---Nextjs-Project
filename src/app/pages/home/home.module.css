@@ -253,11 +253,28 @@
 }
 
 /* Banners Cards Section */
-
 .banners__cards {
   width: auto;
   margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Products - Discount Section */
+.products__sectionDiscount {
+  padding-block: 80px;
+}
+
+.products__sectionDiscountTitle {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.container__productsDiscount {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-rows: auto;
+  gap: 1rem;
 }

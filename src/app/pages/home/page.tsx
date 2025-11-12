@@ -16,6 +16,7 @@ import { RiComputerLine } from "react-icons/ri";
 import { LuGamepad2 } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import {
+  getDiscountProducts,
   getFeaturedProducts,
   getNewProducts,
   getSellerProducts,
@@ -33,6 +34,7 @@ const Home = () => {
   const [newProducts, setNewProducts] = useState<ProductCardProps[]>([]);
   const [bestseller, setBestseller] = useState<ProductCardProps[]>([]);
   const [featured, setFeatured] = useState<ProductCardProps[]>([]);
+  const [discount, setDiscount] = useState<ProductCardProps[]>([]);
 
   useEffect(() => {
     const fetchNewProducts = async () => {
@@ -56,6 +58,14 @@ const Home = () => {
       setFeatured(products);
     };
     fetchFeaturedProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchDiscountProducts = async () => {
+      const products = await getDiscountProducts();
+      setDiscount(products);
+    };
+    fetchDiscountProducts();
   }, []);
 
   const changeFeaturedActive = () => {
@@ -429,6 +439,41 @@ const Home = () => {
           button={<Button text="Shop Now" textColor="white" buttonBg="transparent" border="white" size="lg" />}
           bannerBg="bold-grey"
         />
+      </div>
+
+
+      <div className={`container ${styles.products__sectionDiscount}`}>
+        <h3 className={`${raleway.className} ${styles.products__sectionDiscountTitle}`}>
+          Discounts up to 50%
+        </h3>
+
+        <div className={styles.container__productsDiscount}>
+          {discount && discount.length > 0 ? (
+            discount.map((product, i) => (
+              <ProductCard
+                  key={product._id || i}
+                  _id={product._id}
+                  name={product.name}
+                  images={product.images?.[0] || "/images/default.png"}
+                  price={product.price}
+                  heartIcon={<CiHeart />}
+                  button={
+                    <Button
+                      text="Buy Now"
+                      textColor="white"
+                      buttonBg="black"
+                      size="md"
+                      border="none"
+                    />
+                  }
+                  onFavorite={onFavoriteProduct}
+                  onClick={clickProduct}
+                />
+            ))
+          ) : (
+            <span>Not discount products found</span>
+          )}
+        </div>
       </div>
     </>
   );

@@ -44,3 +44,18 @@ export const getFeaturedProducts = async() => {
     console.error(e)
   }
 }
+
+export const getDiscountProducts = async() => {
+  try {
+    const res = await axios.get("/api/products/discount");
+
+    if (res.status !== 200) {
+      throw new Error("Error fetching new discount products")
+    }
+
+    console.log(res.data);
+    return res.data;
+  } catch(e) {
+    console.error(e)
+  }
+}

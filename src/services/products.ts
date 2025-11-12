@@ -8,7 +8,6 @@ export const getNewProducts = async() => {
       throw new Error("Error fetching new arrival products")
     }
 
-    console.log(res.data);
     return res.data;
   } catch(e) {
     console.error(e)
@@ -23,7 +22,6 @@ export const getSellerProducts = async() => {
       throw new Error("Error fetching new arrival products")
     }
 
-    console.log(res.data);
     return res.data;
   } catch(e) {
     console.error(e)
@@ -38,7 +36,6 @@ export const getFeaturedProducts = async() => {
       throw new Error("Error fetching new arrival products")
     }
 
-    console.log(res.data);
     return res.data;
   } catch(e) {
     console.error(e)
@@ -53,7 +50,6 @@ export const getDiscountProducts = async() => {
       throw new Error("Error fetching new discount products")
     }
 
-    console.log(res.data);
     return res.data;
   } catch(e) {
     console.error(e)

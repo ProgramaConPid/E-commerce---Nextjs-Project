@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
+  console.log(token)
 
   const publicPaths = ["/pages/login", "/pages/register"];
 

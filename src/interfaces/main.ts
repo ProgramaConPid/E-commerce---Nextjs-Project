@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import { bannerBg, ButtonBorder, ButtonSize, TextColor } from '@/types/types';
+import Product from '@/database/models/Products';
 
 type ButtonBg = "black" | "transparent";
 
@@ -35,5 +36,19 @@ export interface BannerCardProps {
   description: string;
   button: JSX.Element;
   bannerBg: bannerBg
-  
+}
+
+export interface CommentProps {
+  userImg: string;
+  username: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  commentText: string;
+  productImgs?: string[];
+}
+
+export interface OverallRatingProps {
+  ratings: {
+    [key: number]: number;
+  };
+  totalReviews: number;
 }

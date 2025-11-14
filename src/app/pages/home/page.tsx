@@ -475,6 +475,18 @@ const Home = () => {
           )}
         </div>
       </div>
+
+      <div className={styles.banner__summerSection}>
+        <div className={styles.banner__summerTexts}>
+          <h2 className={`${raleway.className} ${styles.banner__textsTitle}`}>
+            Big Summer <span>Sale</span>
+          </h2>
+          <p className={`${nunitoSans.className} ${styles.banner__textsDescription}`}>
+            Commodo fames vitae vitae leo mauris in. Eu consequat.
+          </p>
+          <Button text="Shop Now" border="white" buttonBg="transparent" size="md" textColor="white" />
+        </div>
+      </div>
     </>
   );
 };

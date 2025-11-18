@@ -1,36 +1,55 @@
+"use client";
+
 import { ButtonProps } from "@/interfaces/main";
 import { raleway } from "@/app/fonts/mainFonts";
 
 const Button = ({
   text,
-  textColor,
-  buttonBg,
-  border,
-  size,
+  textColor = "white",
+  buttonBg = "black",
+  border = "none",
+  size = "md",
   rightIcon,
+  onClick,
 }: ButtonProps) => {
-  const verifyBorder = () => {
-    switch (border) {
-      case "black":
-        return "border-1 border-black";
-      case "white":
-        return "border-1 border-white";
-      case "none":
-        return "";
-    }
+
+  const sizes = {
+    md: "text-base",
+    lg: "text-lg",
+    sm: "text-sm",
   };
+
+  const textColorClass =
+    textColor === "black"
+      ? "text-[var(--black)]"
+      : "text-[var(--white)]";
+
+  const bgColorClass =
+    buttonBg === "black"
+      ? "bg-[var(--black)]"
+      : "bg-transparent";
+
+  const borderClass =
+    border === "black"
+      ? "border border-[var(--black)]"
+      : border === "white"
+      ? "border border-[var(--white)]"
+      : "";
 
   return (
     <button
-      className={`${rightIcon ? "flex items-center gap-3" : ""} ${
-        textColor === "black" ? "text-(--black)" : "text-(--white)"
-      } ${verifyBorder()} ${
-        buttonBg === "black" ? "bg-(--black)" : "bg-transparent"
-      } ${raleway.className} py-3 px-10 rounded-[.3rem] cursor-pointer`}
+      onClick={onClick}
+      className={`
+        ${raleway.className}
+        ${sizes[size]}
+        ${textColorClass}
+        ${bgColorClass}
+        ${borderClass}
+        ${rightIcon ? "flex items-center gap-3" : ""}
+        py-3 px-10 rounded-md cursor-pointer
+      `}
     >
-      <span className={`${size === "md" ? "text-[1rem]" : "text-lg"}`}>
-        {text}
-      </span>
+      <span>{text}</span>
       {rightIcon}
     </button>
   );

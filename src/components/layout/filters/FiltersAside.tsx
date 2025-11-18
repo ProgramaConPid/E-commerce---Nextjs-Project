@@ -4,4 +4,4 @@ const FiltersAside = () => {
   )
 }
 
-export default FiltersAside
+export default FiltersAside;

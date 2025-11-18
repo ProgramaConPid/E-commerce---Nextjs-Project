@@ -48,3 +48,22 @@ export interface OverallRatingProps {
   };
   totalReviews: number;
 }
+
+export interface ShoppingItemProps {
+  itemImg: string;
+  itemId: string;
+  itemName: string;
+  itemPrice: number;
+  itemQuantity: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onRemove: () => void;
+}
+
+export interface OrderSummaryProps {
+  subtotal: number;
+  shipping: number;
+  tax: number;
+  total: number;
+  onRedirectToCheckout: () => void;
+}

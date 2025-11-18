@@ -95,7 +95,7 @@ export default function Navbar() {
                   className="focus:outline-none rounded-full border border-gray-300 hover:border-indigo-500 transition overflow-hidden w-9 h-9"
                 >
                   <Image
-                    src={session.user.image || "/default-avatar.png"}
+                    src={session.user.image || "/images/default-avatar.jpg"}
                     alt="Perfil"
                     width={100}
                     height={100}

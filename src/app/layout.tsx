@@ -4,6 +4,8 @@ import SessionProvider from "@/components/layout/SessionProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Providers } from "@/providers/Providers";
+import { Provider } from "@/context/Provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Pidcommerce",
@@ -21,13 +23,16 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="bg-gray-100 text-gray-900">
-        <Providers>
-          <SessionProvider>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </SessionProvider>
-        </Providers>
+        <Provider>
+          <Providers>
+            <SessionProvider>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+              <Toaster position="top-right" />
+            </SessionProvider>
+          </Providers>
+        </Provider>
       </body>
     </html>
   );

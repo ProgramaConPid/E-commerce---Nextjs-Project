@@ -14,7 +14,7 @@ import { IoCameraOutline } from "react-icons/io5";
 import { FiHeadphones } from "react-icons/fi";
 import { RiComputerLine } from "react-icons/ri";
 import { LuGamepad2 } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   getDiscountProducts,
   getFeaturedProducts,
@@ -25,11 +25,14 @@ import ProductCard from "@/components/ui/ProductCard/ProductCard";
 import type { ProductCardProps } from "@/interfaces/main";
 import BannerCard from "@/components/ui/BannerCard/BannerCard";
 import { useRouter } from "next/navigation";
+import { myContext } from "@/context/Context";
+import { toast } from "sonner";
 
 const Home = () => {
   const [activeNewProducts, setActiveNewProducts] = useState(true);
   const [activeFeaturedProducts, setActiveFeaturedProducts] = useState(false);
   const [activeSellerProducts, setActiveSellerProducts] = useState(false);
+  const { userLogged } = useContext(myContext);
 
   const [newProducts, setNewProducts] = useState<ProductCardProps[]>([]);
   const [bestseller, setBestseller] = useState<ProductCardProps[]>([]);
@@ -42,6 +45,14 @@ const Home = () => {
     const category = name.toLowerCase().replace(/ /g, "-");
     router.push(`/pages/home/category/${category}`);
   };
+
+  useEffect(() => {
+    if (userLogged?.username) {
+      toast.success(`Welcome back, ${userLogged.username}!`, {
+        duration: 2000,
+      });
+    }
+  }, [userLogged?.username]);
 
   useEffect(() => {
     const fetchNewProducts = async () => {

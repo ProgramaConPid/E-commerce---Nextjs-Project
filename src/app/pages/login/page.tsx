@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useContext,useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "@/services/userLogged";
 import { logginMail } from "@/constant/emails/logginMail";
 import Link from "next/link";
 import Image from "next/image";
+import { myContext, UserLoggedProps } from "@/context/Context";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,6 +15,8 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { setUserLogged } = useContext(myContext);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

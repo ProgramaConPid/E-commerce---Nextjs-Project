@@ -56,7 +56,7 @@ export default function Navbar() {
           <input
             type="text"
             className="w-full bg-(--grey) py-3 px-2 focus:outline-none"
-            placeholder="Buscar productos..."
+            placeholder="Search products..."
           />
         </div>
 

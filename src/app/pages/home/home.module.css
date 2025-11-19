@@ -204,6 +204,13 @@
 .browse__productsItems > * {
   flex: 1;
   cursor: pointer;
+  transition: 400ms ease all;
+}
+
+.browse__productsItems > *:hover {
+  background-color: var(--black);
+  color: var(--white);
+  transform: translateY(-5px);
 }
 
 .browse__productsArrows > * {

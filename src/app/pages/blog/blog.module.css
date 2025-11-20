@@ -1,12 +1,16 @@
+.blog__section {
+  margin-block: 80px;
+}
+
 .blog__sectionTitle {
   font-size: clamp(1.4rem, 6vw, 2.5rem);
   text-align: center;
-  margin-top: 2rem;
   margin-bottom: 1rem;
 }
 
 .blog__sectionDescription {
   text-align: center;
+  font-size: clamp(1rem, 4vw, 1.25rem);
 }
 
 .container__cards {

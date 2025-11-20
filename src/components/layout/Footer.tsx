@@ -14,8 +14,8 @@ const Footer = () => {
 
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <Image
-            className="w-40 h-40 object-contain"
-            src={"/images/ecommerce-logo.png"}
+            className="w-[150px] h-auto"
+            src={"/images/white-logo.png"}
             alt="E-commerce Logo"
             width={200}
             height={200}
@@ -28,7 +28,7 @@ const Footer = () => {
           </p>
         </div>
 
-        <div>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <h3
             className={`text-lg mb-3 font-semibold ${raleway.className}`}
           >
@@ -50,7 +50,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <h3
             className={`text-lg mb-3 font-semibold ${raleway.className}`}
           >

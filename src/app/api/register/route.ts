@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     await User.create({ name, email, password: hashed });
 
     return Response.json({ msg: "Usuario creado correctamente" }, { status: 201 });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return Response.json({ error: err.message }, { status: 500 });
   }

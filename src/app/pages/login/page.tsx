@@ -1,13 +1,13 @@
 "use client";
 
 import { useContext, useState } from "react";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "@/services/userLogged";
 import { logginMail } from "@/constant/emails/logginMail";
 import Link from "next/link";
 import Image from "next/image";
-import { myContext, UserLoggedProps } from "@/context/Context";
+import { myContext } from "@/context/Context";
 
 export default function LoginPage() {
   const router = useRouter();

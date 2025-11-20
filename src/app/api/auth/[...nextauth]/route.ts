@@ -22,25 +22,52 @@ export const authOptions: NextAuthOptions = {
         const user = await User.findOne({ email: credentials.email });
         if (!user) throw new Error("Usuario no encontrado");
 
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
         if (!isValid) throw new Error("Contraseña incorrecta");
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return { id: String((user as any)._id), name: user.name, email: user.email };
+        return {
+          id: String(user._id),
+          name: user.name,
+          email: user.email,
+        };
       },
     }),
+
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret:  process.env.GOOGLE_CLIENT_SECRET as string
-    })
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
   ],
+
   pages: {
     signIn: "/pages/login",
   },
+
   session: {
     strategy: "jwt",
   },
+
   secret: process.env.NEXTAUTH_SECRET,
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        token.id = (user as any).id;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

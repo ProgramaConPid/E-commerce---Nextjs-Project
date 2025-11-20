@@ -1,0 +1,32 @@
+.blog__sectionTitle {
+  font-size: clamp(1.4rem, 6vw, 2.5rem);
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.blog__sectionDescription {
+  text-align: center;
+}
+
+.container__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem; 
+  margin-block: 3rem;
+  padding: 0 1rem;
+}
+
+@media (max-width: 900px) {
+  .container__cards {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .container__cards {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+}

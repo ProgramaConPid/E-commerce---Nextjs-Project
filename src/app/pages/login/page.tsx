@@ -1,7 +1,7 @@
 "use client";
 
-import { useContext,useState } from "react";
-import { signIn } from "next-auth/react";
+import { useContext, useState } from "react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "@/services/userLogged";
 import { logginMail } from "@/constant/emails/logginMail";
@@ -38,6 +38,17 @@ export default function LoginPage() {
       if (res?.error) {
         setError("Incorrect credentials or user not found.");
       } else {
+        const sessionRes = await fetch("/api/auth/session");
+        const session = await sessionRes.json();
+
+        if (session?.user) {
+          setUserLogged({
+            id: session.user.id,
+            name: session.user.name,
+            email: session.user.email,
+          });
+        }
+
         router.push("/pages/home");
         sendEmail({
           email: form.email,
@@ -79,9 +90,7 @@ export default function LoginPage() {
           </label>
 
           <label className="block relative">
-            <span className="text-sm font-medium text-gray-200">
-              Password
-            </span>
+            <span className="text-sm font-medium text-gray-200">Password</span>
             <div className="mt-2 relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -136,7 +145,13 @@ export default function LoginPage() {
             onClick={() => signIn("google", { callbackUrl: "/pages/home" })}
             className="w-full flex items-center justify-center gap-3 border p-2 rounded bg-(--white) cursor-pointer"
           >
-            <Image src="/icons/Logo-google-icon.png" alt="Google" width={100} height={100} className="w-5 h-5" />
+            <Image
+              src="/icons/Logo-google-icon.png"
+              alt="Google"
+              width={100}
+              height={100}
+              className="w-5 h-5"
+            />
             Login with Google
           </button>
         </form>

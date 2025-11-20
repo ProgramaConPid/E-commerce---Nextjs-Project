@@ -47,12 +47,15 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (userLogged?.username) {
-      toast.success(`Welcome back, ${userLogged.username}!`, {
-        duration: 2000,
-      });
+    if (userLogged?.name) {
+      const hasShown = sessionStorage.getItem("welcome-toast");
+
+      if (!hasShown) {
+        toast.success(`Welcome back, ${userLogged.name}!`, { duration: 5000 });
+        sessionStorage.setItem("welcome-toast", "true");
+      }
     }
-  }, [userLogged?.username]);
+  }, [userLogged?.name]);
 
   useEffect(() => {
     const fetchNewProducts = async () => {
@@ -105,7 +108,7 @@ const Home = () => {
     setActiveSellerProducts(false);
     setActiveNewProducts(true);
   };
-  
+
   return (
     <>
       <div className={styles.hero}>

@@ -67,3 +67,10 @@ export interface OrderSummaryProps {
   total: number;
   onRedirectToCheckout: () => void;
 }
+
+export interface IBlog {
+  image: string;
+  type: string;
+  title: string;
+  description: string;
+}

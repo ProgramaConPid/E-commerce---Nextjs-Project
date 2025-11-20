@@ -3,7 +3,8 @@
 import { createContext } from "react";
 
 export interface UserLoggedProps {
-  username: string;
+  id: string;
+  name: string;
   email: string;
 }
 

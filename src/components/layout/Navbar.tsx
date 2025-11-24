@@ -61,7 +61,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex nav__links gap-11 items-center">
-          <div className="nav__links--text flex gap-9">
+          <div className="nav__links--text flex items-center gap-9">
             <Link href="/pages/home" className="nav__link--item hover:text-(--black) text-(--grey-color) duration-300 ease-in">
               Home
             </Link>
@@ -76,6 +76,10 @@ export default function Navbar() {
 
             <Link href="/pages/blog" className="nav__link--item hover:text-(--black) text-(--grey-color) duration-300 ease-in">
               Blog
+            </Link>
+
+            <Link href="/pages/publish" className="nav__link--item bg-(--black) cursor-pointer p-2 rounded-[.4rem] text-(--white)">
+              Publish
             </Link>
           </div>
 
@@ -153,6 +157,7 @@ export default function Navbar() {
             <Link href="/pages/about" className="hover:text-indigo-600">About</Link>
             <Link href="/pages/contact" className="hover:text-indigo-600">Contact</Link>
             <Link href="/pages/blog" className="hover:text-indigo-600">Blog</Link>
+            <Link href="/pages/publish" className="hover:text-indigo-600">Publish</Link>
 
             <div className="flex gap-4 pt-2">
               <Link href="/pages/favorites"><Heart /></Link>

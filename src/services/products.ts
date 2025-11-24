@@ -55,3 +55,22 @@ export const getDiscountProducts = async() => {
     console.error(e)
   }
 }
+
+export const createProduct = async (formData: FormData) => {
+  try {
+    const res = await axios.post("/api/products", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    if (res.status !== 201) {
+      throw new Error("Error creating product");
+    }
+
+    return res.data;
+  } catch (e) {
+    console.error("❌ Error in createProduct:", e);
+    throw e;
+  }
+};

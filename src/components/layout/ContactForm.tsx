@@ -1,3 +1,5 @@
+"use client";
+
 import { raleway, nunitoSans } from "@/app/fonts/mainFonts";
 import { useState } from "react";
 import { sendMessage } from "@/services/contact";

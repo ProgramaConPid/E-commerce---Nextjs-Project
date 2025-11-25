@@ -14,25 +14,51 @@ import { IoCameraOutline } from "react-icons/io5";
 import { FiHeadphones } from "react-icons/fi";
 import { RiComputerLine } from "react-icons/ri";
 import { LuGamepad2 } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
+  getDiscountProducts,
   getFeaturedProducts,
   getNewProducts,
   getSellerProducts,
 } from "@/services/products";
 import ProductCard from "@/components/ui/ProductCard/ProductCard";
-import { CiHeart } from "react-icons/ci";
 import type { ProductCardProps } from "@/interfaces/main";
 import BannerCard from "@/components/ui/BannerCard/BannerCard";
+import { useRouter } from "next/navigation";
+import { myContext } from "@/context/Context";
+import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 const Home = () => {
+  const { data: session } = useSession();
   const [activeNewProducts, setActiveNewProducts] = useState(true);
   const [activeFeaturedProducts, setActiveFeaturedProducts] = useState(false);
   const [activeSellerProducts, setActiveSellerProducts] = useState(false);
+  const { userLogged } = useContext(myContext);
 
   const [newProducts, setNewProducts] = useState<ProductCardProps[]>([]);
   const [bestseller, setBestseller] = useState<ProductCardProps[]>([]);
   const [featured, setFeatured] = useState<ProductCardProps[]>([]);
+  const [discount, setDiscount] = useState<ProductCardProps[]>([]);
+
+  const router = useRouter();
+  console.log("User ID:", session?.user?.id);
+
+  const goToCategory = (name: string) => {
+    const category = name.toLowerCase().replace(/ /g, "-");
+    router.push(`/pages/home/category/${category}`);
+  };
+
+  useEffect(() => {
+    if (userLogged?.name) {
+      const hasShown = sessionStorage.getItem("welcome-toast");
+
+      if (!hasShown) {
+        toast.success(`Welcome back, ${userLogged.name}!`, { duration: 5000 });
+        sessionStorage.setItem("welcome-toast", "true");
+      }
+    }
+  }, [userLogged?.name]);
 
   useEffect(() => {
     const fetchNewProducts = async () => {
@@ -58,6 +84,14 @@ const Home = () => {
     fetchFeaturedProducts();
   }, []);
 
+  useEffect(() => {
+    const fetchDiscountProducts = async () => {
+      const products = await getDiscountProducts();
+      setDiscount(products);
+    };
+    fetchDiscountProducts();
+  }, []);
+
   const changeFeaturedActive = () => {
     setActiveNewProducts(false);
     setActiveSellerProducts(false);
@@ -76,14 +110,6 @@ const Home = () => {
     setActiveFeaturedProducts(false);
     setActiveSellerProducts(false);
     setActiveNewProducts(true);
-  };
-
-  const onFavoriteProduct = () => {
-    console.log("Product added to favorites");
-  };
-
-  const clickProduct = () => {
-    console.log("Product clicked");
   };
 
   return (
@@ -111,6 +137,7 @@ const Home = () => {
               textColor={"white"}
               border={"white"}
               size={"lg"}
+              onClick={() => {}}
             />
           </div>
           <Image
@@ -211,6 +238,7 @@ const Home = () => {
               buttonBg={"transparent"}
               size={"lg"}
               border={"black"}
+              onClick={() => {}}
             />
           </div>
           <Image
@@ -239,7 +267,10 @@ const Home = () => {
           </div>
 
           <div className={styles.browse__productsItems}>
-            <div className={styles.browse__productsItem}>
+            <div
+              onClick={() => goToCategory("Phones")}
+              className={styles.browse__productsItem}
+            >
               <GiSmartphone />
               <h3
                 className={`${styles.products__itemText} ${nunitoSans.className}`}
@@ -247,7 +278,10 @@ const Home = () => {
                 Phones
               </h3>
             </div>
-            <div className={styles.browse__productsItem}>
+            <div
+              onClick={() => goToCategory("Smart Watches")}
+              className={styles.browse__productsItem}
+            >
               <BsSmartwatch />
               <h3
                 className={`${styles.products__itemText} ${nunitoSans.className}`}
@@ -255,7 +289,10 @@ const Home = () => {
                 Smart Watches
               </h3>
             </div>
-            <div className={styles.browse__productsItem}>
+            <div
+              onClick={() => goToCategory("Cameras")}
+              className={styles.browse__productsItem}
+            >
               <IoCameraOutline />
               <h3
                 className={`${styles.products__itemText} ${nunitoSans.className}`}
@@ -263,7 +300,10 @@ const Home = () => {
                 Cameras
               </h3>
             </div>
-            <div className={styles.browse__productsItem}>
+            <div
+              onClick={() => goToCategory("Headphones")}
+              className={styles.browse__productsItem}
+            >
               <FiHeadphones />
               <h3
                 className={`${styles.products__itemText} ${nunitoSans.className}`}
@@ -271,7 +311,10 @@ const Home = () => {
                 Headphones
               </h3>
             </div>
-            <div className={styles.browse__productsItem}>
+            <div
+              onClick={() => goToCategory("Computers")}
+              className={styles.browse__productsItem}
+            >
               <RiComputerLine />
               <h3
                 className={`${styles.products__itemText} ${nunitoSans.className}`}
@@ -279,7 +322,10 @@ const Home = () => {
                 Computers
               </h3>
             </div>
-            <div className={styles.browse__productsItem}>
+            <div
+              onClick={() => goToCategory("Gaming")}
+              className={styles.browse__productsItem}
+            >
               <LuGamepad2 />
               <h3
                 className={`${styles.products__itemText} ${nunitoSans.className}`}
@@ -330,18 +376,6 @@ const Home = () => {
                   name={product.name}
                   images={product.images?.[0] || "/images/default.png"}
                   price={product.price}
-                  heartIcon={<CiHeart />}
-                  button={
-                    <Button
-                      text="Buy Now"
-                      textColor="white"
-                      buttonBg="black"
-                      size="md"
-                      border="none"
-                    />
-                  }
-                  onFavorite={onFavoriteProduct}
-                  onClick={clickProduct}
                 />
               ))
             : activeNewProducts && <p>No products found</p>}
@@ -356,18 +390,6 @@ const Home = () => {
                   name={product.name}
                   images={product.images?.[0] || "/images/default.png"}
                   price={product.price}
-                  heartIcon={<CiHeart />}
-                  button={
-                    <Button
-                      text="Buy Now"
-                      textColor="white"
-                      buttonBg="black"
-                      size="md"
-                      border="none"
-                    />
-                  }
-                  onFavorite={onFavoriteProduct}
-                  onClick={clickProduct}
                 />
               ))
             : activeSellerProducts && <p>No products found</p>}
@@ -382,18 +404,6 @@ const Home = () => {
                   name={product.name}
                   images={product.images?.[0] || "/images/default.png"}
                   price={product.price}
-                  heartIcon={<CiHeart />}
-                  button={
-                    <Button
-                      text="Buy Now"
-                      textColor="white"
-                      buttonBg="black"
-                      size="md"
-                      border="none"
-                    />
-                  }
-                  onFavorite={onFavoriteProduct}
-                  onClick={clickProduct}
                 />
               ))
             : activeFeaturedProducts && <p>No products found</p>}
@@ -405,30 +415,111 @@ const Home = () => {
           image="/images/banners/popular-products.png"
           title="Popular Products"
           description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
-          button={<Button text="Shop Now" textColor="black" buttonBg="transparent" border="black" size="lg" />}
+          button={
+            <Button
+              text="Shop Now"
+              textColor="black"
+              buttonBg="transparent"
+              border="black"
+              size="lg"
+              onClick={() => {}}
+            />
+          }
           bannerBg="white"
         />
         <BannerCard
           image="/images/banners/ipad-pro.png"
           title="Ipad Pro"
           description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
-          button={<Button text="Shop Now" textColor="black" buttonBg="transparent" border="black" size="lg" />}
+          button={
+            <Button
+              text="Shop Now"
+              textColor="black"
+              buttonBg="transparent"
+              border="black"
+              size="lg"
+              onClick={() => {}}
+            />
+          }
           bannerBg="smooth-grey"
         />
         <BannerCard
           description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
           image="/images/banners/samsung-galaxy.png"
           title="Samsung Galaxy"
-          button={<Button text="Shop Now" textColor="black" buttonBg="transparent" border="black" size="lg" />}
+          button={
+            <Button
+              text="Shop Now"
+              textColor="black"
+              buttonBg="transparent"
+              border="black"
+              size="lg"
+              onClick={() => {}}
+            />
+          }
           bannerBg="medium-grey"
         />
         <BannerCard
           image="/images/banners/macbook-pro.png"
           title="Macbook Pro"
           description="iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking and ease of use."
-          button={<Button text="Shop Now" textColor="white" buttonBg="transparent" border="white" size="lg" />}
+          button={
+            <Button
+              text="Shop Now"
+              textColor="white"
+              buttonBg="transparent"
+              border="white"
+              size="lg"
+              onClick={() => {}}
+            />
+          }
           bannerBg="bold-grey"
         />
+      </div>
+
+      <div className={`container ${styles.products__sectionDiscount}`}>
+        <h3
+          className={`${raleway.className} ${styles.products__sectionDiscountTitle}`}
+        >
+          Discounts up to 50%
+        </h3>
+
+        <div className={styles.container__productsDiscount}>
+          {discount && discount.length > 0 ? (
+            discount.map((product, i) => (
+              <ProductCard
+                key={product._id || i}
+                _id={product._id}
+                name={product.name}
+                images={product.images?.[0] || "/images/default.png"}
+                price={product.price}
+              />
+            ))
+          ) : (
+            <span>Not discount products found</span>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.banner__summerSection}>
+        <div className={styles.banner__summerTexts}>
+          <h2 className={`${raleway.className} ${styles.banner__textsTitle}`}>
+            Big Summer <span>Sale</span>
+          </h2>
+          <p
+            className={`${nunitoSans.className} ${styles.banner__textsDescription}`}
+          >
+            Commodo fames vitae vitae leo mauris in. Eu consequat.
+          </p>
+          <Button
+            text="Shop Now"
+            border="white"
+            buttonBg="transparent"
+            size="md"
+            textColor="white"
+            onClick={() => {}}
+          />
+        </div>
       </div>
     </>
   );

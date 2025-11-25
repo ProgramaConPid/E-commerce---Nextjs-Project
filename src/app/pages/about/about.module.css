@@ -1,0 +1,185 @@
+.container {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+}
+
+.hero {
+  height: 80vh;
+  width: 100%;
+  position: relative;
+  background-image: url("/images/banners/banner-about.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.75) 30%,
+    rgba(0, 0, 0, 0.4) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  z-index: 1;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.hero__textBox {
+  max-width: 600px;
+  width: 100%;
+  color: var(--white);
+}
+
+.hero__contentSpan {
+  font-size: 1.4rem;
+  font-weight: 500;
+  opacity: 0.9;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.hero__contentTitle {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  font-weight: 300;
+  color: var(--white);
+}
+
+.hero__contentTitleSpan {
+  font-weight: 700;
+}
+
+.hero__contentDescription {
+  font-size: 1.2rem;
+  max-width: 500px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+.products__section {
+  padding-block: 80px;
+  background-color: var(--white, #fff);
+}
+
+.products__sectionDiscountTitle {
+  font-size: 2.4rem;
+  margin-bottom: 1.8rem;
+  font-weight: 600;
+}
+
+.browse__products {
+  padding-block: 70px;
+  background-color: var(--white-grey, #f3f3f3);
+}
+
+.browse__productsContainer {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.browse__productsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.browse__productsTitle {
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  font-weight: 600;
+}
+
+.browse__productsItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+.browse__productsItem {
+  flex: 1 1 calc(25% - 1rem);
+  background-color: var(--bold-grey, #e5e5e5);
+  padding: 2.5rem;
+  border-radius: 10px;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  min-width: 200px;
+  cursor: default;
+  transition: transform 0.2s ease;
+}
+
+.browse__productsItem:hover {
+  transform: translateY(-6px);
+}
+
+.browse__productsItem i {
+  font-size: 40px;
+}
+
+.browse__productsItem h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.banner__summerSection {
+  min-height: 60vh;
+  background-image: url("/images/banners/banner-summer-sale.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: 40px;
+}
+
+.banner__summerTexts {
+  text-align: center;
+  max-width: 700px;
+}
+
+.banner__textsTitle {
+  color: var(--white, #fff);
+  font-size: clamp(1.5rem, 8vw, 3.5rem);
+  font-weight: 200;
+  margin-bottom: 1rem;
+}
+
+.banner__textsDescription {
+  color: var(--white, #fff);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 900px) {
+  .hero__content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero__image {
+    width: 280px;
+  }
+
+  .browse__productsItem {
+    flex: 1 1 calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .browse__productsItem {
+    flex: 1 1 100%;
+  }
+}

@@ -1,5 +1,7 @@
 import type { JSX } from "react";
 import { bannerBg, ButtonBorder, ButtonSize, TextColor } from '@/types/types';
+import { ICartItem } from "@/database/models/Users";
+import { IProduct } from "@/database/models/Products";
 
 type ButtonBg = "black" | "transparent";
 
@@ -10,17 +12,14 @@ export interface ButtonProps {
   buttonBg: ButtonBg;
   size: ButtonSize;
   border: ButtonBorder;
+  onClick?: () => void;
 }
 
 export interface ProductCardProps {
   _id: string;
-  heartIcon: JSX.Element;
   images: string;
   name: string;
   price: number;
-  button: JSX.Element;
-  onClick: () => void;
-  onFavorite: () => void;
 }
 
 export interface DetailCardProps {
@@ -35,5 +34,50 @@ export interface BannerCardProps {
   description: string;
   button: JSX.Element;
   bannerBg: bannerBg
-  
+}
+
+export interface CommentProps {
+  userImg: string;
+  username: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  commentText: string;
+  productImgs?: string[];
+}
+
+export interface OverallRatingProps {
+  ratings: {
+    [key: number]: number;
+  };
+  totalReviews: number;
+}
+
+export interface ShoppingItemProps {
+  itemImg: string;
+  itemId: string;
+  itemName: string;
+  itemPrice: number;
+  itemQuantity: number;
+  onIncrement?: () => void;
+  onDecrement?: () => void;
+  onRemove?: () => void;
+}
+
+
+export interface OrderSummaryProps {
+  cart: ICartItemUI[];
+  onRedirectToCheckout: () => void;
+}
+
+export interface ICartItemUI {
+  _id: string;        
+  productId: IProduct; 
+  quantity: number;
+}
+
+
+export interface IBlog {
+  image: string;
+  type: string;
+  title: string;
+  description: string;
 }

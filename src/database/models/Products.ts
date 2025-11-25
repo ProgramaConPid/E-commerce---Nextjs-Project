@@ -1,6 +1,31 @@
 import {Schema, model, models} from "mongoose";
 
-const ProductSchema = new Schema(
+export interface IProduct {
+  _id?: string; 
+  name: string;
+  category: string;
+  price: number;
+  oldPrice?: number | null;
+  tags: string[];
+  colors: string[];
+  storageOptions: string[];
+
+  specs: {
+    [key: string]: string | number | boolean | undefined;
+  };
+
+  description?: string;
+  images: string[];
+  stock: number;
+  delivery?: string;
+  warranty?: string;
+
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+
+const ProductSchema = new Schema<IProduct>(
   {
     name: {
       type: String,

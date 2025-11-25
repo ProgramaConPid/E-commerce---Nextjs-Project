@@ -1,0 +1,18 @@
+.cart__section {
+  padding-block: 80px;
+}
+
+.shopping__cartTitle {
+  font-size: clamp(1.4rem, 6vw, 2.5rem);
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.shopping__cartContent {
+  display: flex;
+  gap: 2rem;
+}
+
+.shopping__cartContent > * {
+  flex: 1;
+}

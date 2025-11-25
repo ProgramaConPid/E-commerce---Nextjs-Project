@@ -5,6 +5,10 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
 
+  if (!token) {
+  console.log("Token es NULL — el NEXTAUTH_SECRET posiblemente no coincide");
+  }
+
   const publicPaths = ["/pages/login", "/pages/register"];
 
   if (token && publicPaths.some((path) => pathname.startsWith(path))) {

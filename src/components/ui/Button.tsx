@@ -45,6 +45,7 @@ const Button = ({
         ${textColorClass}
         ${bgColorClass}
         ${borderClass}
+        ${text === "Checkout" ? "w-full" : "  "}
         ${rightIcon ? "flex items-center gap-3" : ""}
         py-3 px-10 rounded-md cursor-pointer
       `}

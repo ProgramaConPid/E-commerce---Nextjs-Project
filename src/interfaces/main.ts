@@ -1,5 +1,7 @@
 import type { JSX } from "react";
 import { bannerBg, ButtonBorder, ButtonSize, TextColor } from '@/types/types';
+import { ICartItem } from "@/database/models/Users";
+import { IProduct } from "@/database/models/Products";
 
 type ButtonBg = "black" | "transparent";
 
@@ -10,7 +12,7 @@ export interface ButtonProps {
   buttonBg: ButtonBg;
   size: ButtonSize;
   border: ButtonBorder;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export interface ProductCardProps {
@@ -55,18 +57,23 @@ export interface ShoppingItemProps {
   itemName: string;
   itemPrice: number;
   itemQuantity: number;
-  onIncrement: () => void;
-  onDecrement: () => void;
-  onRemove: () => void;
+  onIncrement?: () => void;
+  onDecrement?: () => void;
+  onRemove?: () => void;
 }
 
+
 export interface OrderSummaryProps {
-  subtotal: number;
-  shipping: number;
-  tax: number;
-  total: number;
+  cart: ICartItemUI[];
   onRedirectToCheckout: () => void;
 }
+
+export interface ICartItemUI {
+  _id: string;        
+  productId: IProduct; 
+  quantity: number;
+}
+
 
 export interface IBlog {
   image: string;

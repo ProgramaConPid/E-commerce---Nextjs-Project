@@ -4,6 +4,8 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import styles from "./publish.module.css";
 import { createProduct } from "@/services/products";
 import { toast } from "sonner";
+import { raleway, nunitoSans } from "@/app/fonts/mainFonts";
+import Image from "next/image";
 
 type ProductForm = {
   name: string;
@@ -168,19 +170,19 @@ const PublisProduct = () => {
 
   return (
     <div className={`container ${styles.publish__section}`}>
-      <h2 className={styles.publish__sectionTitle}>Add New Product</h2>
+      <h2 className={`${styles.publish__sectionTitle} ${raleway.className}`}>Add New Product</h2>
 
-      <p className={styles.publish__sectionDescription}>
+      <p className={`${styles.publish__sectionDescription} ${nunitoSans.className}`}>
         Create a new product listing for your store
       </p>
 
       <form className={styles.publish__form} onSubmit={handleSubmit}>
-        {/* ---------------- BASIC INFO ---------------- */}
+
         <div className={styles.form__basicInformation}>
-          <h3 className={styles.basic__informationTitle}>Basic Information</h3>
+          <h3 className={`${styles.basic__informationTitle} ${raleway.className}`}>Basic Information</h3>
 
           <div className={styles.form__groupName}>
-            <label className={styles.label} htmlFor="name">
+            <label className={`${styles.label} ${raleway.className}`} htmlFor="name">
               Product Name
             </label>
             <input
@@ -195,7 +197,7 @@ const PublisProduct = () => {
 
           <div className={styles.form__groups}>
             <div className={styles.form__groupCategory}>
-              <label htmlFor="category">Category</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="category">Category</label>
               <select
                 className={styles.select__category}
                 name="category"
@@ -213,7 +215,7 @@ const PublisProduct = () => {
             </div>
 
             <div className={styles.form__groupPrice}>
-              <label htmlFor="price">Price</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="price">Price</label>
               <input
                 className={styles.input__price}
                 type="number"
@@ -226,12 +228,11 @@ const PublisProduct = () => {
           </div>
         </div>
 
-        {/* ---------------- PRODUCT DETAILS ---------------- */}
         <div className={styles.form__productDetails}>
-          <h3 className={styles.product__detailsTitle}>Product Details</h3>
+          <h3 className={`${styles.product__detailsTitle} ${raleway.className}`}>Product Details</h3>
 
           <div className={styles.product__detailsTags}>
-            <h4 className={styles.details__tagsTitle}>Tags</h4>
+            <h4 className={`${styles.details__tagsTitle} ${raleway.className}`}>Tags</h4>
 
             <div className={styles.details__tagsContainer}>
               {categories.map((c, i) => (
@@ -243,20 +244,20 @@ const PublisProduct = () => {
                     onChange={handleTags}
                     className={styles.tag__checkbox}
                   />
-                  <label htmlFor={c} className={styles.tag}>
+                  <label htmlFor={c} className={`${styles.tag} ${nunitoSans.className}`}>
                     {c}
                   </label>
                 </div>
               ))}
             </div>
 
-            {/* COLORS */}
             <div className={styles.product__detailsColors}>
-              <h4 className={styles.details__colorsTitle}>Available Colors</h4>
+              <h4 className={`${styles.details__colorsTitle} ${raleway.className}`}>Available Colors</h4>
 
               <div className={styles.colors__container}>
                 {AVAILABLE_COLORS.map((c, i) => (
-                  <label key={i} className={styles.colorOption}>
+                  <label key={i} className={`
+                  ${styles.colorOption} ${nunitoSans.className}`}>
                     <input
                       type="checkbox"
                       value={c.name}
@@ -268,15 +269,14 @@ const PublisProduct = () => {
                       className={styles.colorCircle}
                       style={{ backgroundColor: c.hex }}
                     />
-                    <span className={styles.colorName}>{c.name}</span>
+                    <span className={`${styles.colorName} ${nunitoSans.className}`}>{c.name}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* DESCRIPTION */}
             <div className={styles.details__description}>
-              <h4 className={styles.details__descriptionTitle}>
+              <h4 className={`${styles.details__descriptionTitle} ${raleway.className}`}>
                 Product Description
               </h4>
 
@@ -291,15 +291,14 @@ const PublisProduct = () => {
           </div>
         </div>
 
-        {/* ---------------- TECH SPECS ---------------- */}
         <div className={styles.form__technicalSpecifications}>
-          <h3 className={styles.technical__specificationsTitle}>
+          <h3 className={`${styles.technical__specificationsTitle} ${raleway.className}`}>
             Technical Specifications
           </h3>
 
           <div className={styles.form__groupsSpecifications}>
             <div className={styles.form__group}>
-              <label htmlFor="screen">Screen</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="screen">Screen</label>
               <input
                 type="text"
                 name="screen"
@@ -310,7 +309,7 @@ const PublisProduct = () => {
             </div>
 
             <div className={styles.form__group}>
-              <label htmlFor="processor">Processor/Chip</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="processor">Processor/Chip</label>
               <input
                 type="text"
                 name="processor"
@@ -321,7 +320,7 @@ const PublisProduct = () => {
             </div>
 
             <div className={styles.form__group}>
-              <label htmlFor="battery">Battery Life</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="battery">Battery Life</label>
               <input
                 type="text"
                 name="battery"
@@ -333,9 +332,8 @@ const PublisProduct = () => {
           </div>
         </div>
 
-        {/* ---------------- PRODUCT IMAGES ---------------- */}
         <div className={styles.form__productImages}>
-          <h3 className={styles.product__imagesTitle}>Product Images</h3>
+          <h3 className={`${styles.product__imagesTitle} ${raleway.className}`}>Product Images</h3>
 
           <div className={styles.upload__container}>
             <div className={styles.inputWrapper}>
@@ -350,9 +348,9 @@ const PublisProduct = () => {
 
               <label htmlFor="productImages" className={styles.upload__label}>
                 <div className={styles.upload__icon}>⬆</div>
-                <h3>Upload Product Images</h3>
-                <p>Click to browse or drag and drop your images here</p>
-                <span className={styles.upload__info}>
+                <h3 className={raleway.className}>Upload Product Images</h3>
+                <p className={nunitoSans.className}>Click to browse or drag and drop your images here</p>
+                <span className={`${styles.upload__info} ${nunitoSans.className}`}>
                   PNG, JPG, WEBP up to 10MB each
                 </span>
               </label>
@@ -361,22 +359,21 @@ const PublisProduct = () => {
             {imagePreviews.length > 0 && (
               <div className={styles.preview__container}>
                 {imagePreviews.map((src, i) => (
-                  <img key={i} src={src} className={styles.preview__image} />
+                  <Image key={i} src={src} alt="Product Image" className={styles.preview__image} height={100} width={100} />
                 ))}
               </div>
             )}
           </div>
         </div>
 
-        {/* ---------------- INVENTORY & SHIPPING ---------------- */}
         <div className={styles.form__inventoryAndShipping}>
-          <h3 className={styles.inventory__shippingTitle}>
+          <h3 className={`${styles.inventory__shippingTitle} ${raleway.className}`}>
             Inventory & Shipping
           </h3>
 
           <div className={styles.form__groupsInventoryAndShipping}>
             <div className={styles.form__group}>
-              <label htmlFor="stock">Stock Quantity</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="stock">Stock Quantity</label>
               <input
                 type="text"
                 name="stock"
@@ -387,7 +384,7 @@ const PublisProduct = () => {
             </div>
 
             <div className={styles.form__group}>
-              <label htmlFor="delivery">Delivery Time</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="delivery">Delivery Time</label>
               <input
                 type="text"
                 name="delivery"
@@ -398,7 +395,7 @@ const PublisProduct = () => {
             </div>
 
             <div className={styles.form__group}>
-              <label htmlFor="warranty">Warranty</label>
+              <label className={`${styles.label} ${raleway.className}`} htmlFor="warranty">Warranty</label>
               <input
                 type="text"
                 name="warranty"
@@ -410,7 +407,7 @@ const PublisProduct = () => {
           </div>
         </div>
 
-        <button className={styles.form__submitBtn} type="submit">
+        <button className={`${styles.form__submitBtn} ${raleway.className}`} type="submit">
           Publish Product
         </button>
       </form>

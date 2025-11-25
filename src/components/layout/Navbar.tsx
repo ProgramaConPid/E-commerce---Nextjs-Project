@@ -88,7 +88,7 @@ export default function Navbar() {
               <Heart />
             </Link>
 
-            <Link href="/pages/shopping" className="text-(--black)">
+            <Link href="/pages/cart" className="text-(--black)">
               <ShoppingCart />
             </Link>
 
@@ -161,7 +161,7 @@ export default function Navbar() {
 
             <div className="flex gap-4 pt-2">
               <Link href="/pages/favorites"><Heart /></Link>
-              <Link href="/pages/shopping"><ShoppingCart /></Link>
+              <Link href="/pages/cart"><ShoppingCart /></Link>
               {session?.user ? (
                 <button onClick={() => signOut({ callbackUrl: "/" })} className="text-red-500 flex items-center gap-2">
                   <LogOut size={18} /> Cerrar sesión

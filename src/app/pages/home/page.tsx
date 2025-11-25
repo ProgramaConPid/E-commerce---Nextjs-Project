@@ -27,8 +27,10 @@ import BannerCard from "@/components/ui/BannerCard/BannerCard";
 import { useRouter } from "next/navigation";
 import { myContext } from "@/context/Context";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 const Home = () => {
+  const { data: session } = useSession();
   const [activeNewProducts, setActiveNewProducts] = useState(true);
   const [activeFeaturedProducts, setActiveFeaturedProducts] = useState(false);
   const [activeSellerProducts, setActiveSellerProducts] = useState(false);
@@ -40,6 +42,7 @@ const Home = () => {
   const [discount, setDiscount] = useState<ProductCardProps[]>([]);
 
   const router = useRouter();
+  console.log("User ID:", session?.user?.id);
 
   const goToCategory = (name: string) => {
     const category = name.toLowerCase().replace(/ /g, "-");

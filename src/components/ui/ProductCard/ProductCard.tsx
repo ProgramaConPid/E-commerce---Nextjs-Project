@@ -6,14 +6,42 @@ import styles from "@/components/ui/ProductCard/product.module.css";
 import { nunitoSans, raleway } from "@/app/fonts/mainFonts";
 import { CiHeart } from "react-icons/ci";
 import Button from "../Button";
+import { useSession } from "next-auth/react";
+import { addToCart } from "@/services/cartService"; 
+import { toast } from "sonner";
 
 const ProductCard = ({ _id, images, name, price }: ProductCardProps) => {
-  const handleFavorite = () => {
+  const { data: session } = useSession();
+
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
     console.log("Product added to favorites:", _id);
   };
 
   const handleClickProduct = () => {
     console.log("Product clicked:", _id);
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      if (!session?.user?.id) {
+        console.log("Usuario no autenticado");
+        return;
+      }
+
+      const userId = session.user.id;
+
+      const response = await addToCart({
+        userId,
+        productId: _id,
+        quantity: 1,
+      });
+
+      toast.success("Product added to the cart successfully!.")
+      console.log("Producto agregado:", response  );
+    } catch (error) {
+      console.error("Error agregando al carrito:", error);
+    }
   };
 
   return (
@@ -54,7 +82,7 @@ const ProductCard = ({ _id, images, name, price }: ProductCardProps) => {
         buttonBg="black"
         size="md"
         border="none"
-        onClick={handleClickProduct}
+        onClick={handleAddToCart} // 👈 aquí va
       />
     </div>
   );

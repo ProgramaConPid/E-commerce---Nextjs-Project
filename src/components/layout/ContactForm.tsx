@@ -32,13 +32,10 @@ const ContactForm = () => {
 
     const res = await sendMessage(formData);
 
-    if (!res.ok) {
-      throw new Error("Error sending message, try again later.");
-    }
-
     toast.success("Message sent successfully!");
 
     setForm({ name: "", email: "", message: "" });
+    return res;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     toast.error(error.message || "Unexpected error");

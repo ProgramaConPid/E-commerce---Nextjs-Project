@@ -5,6 +5,7 @@
   background: var(--white);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.25s ease-in-out;
+  display: grid;
 }
 
 .blog__card:hover {
@@ -27,8 +28,11 @@
 }
 
 .blog__cardText {
+  height: 100%;
   margin-top: .5rem;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   gap: .6rem;
   padding: 15px;
 }

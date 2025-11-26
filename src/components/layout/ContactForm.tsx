@@ -45,7 +45,7 @@ const ContactForm = () => {
 };
 
   return (
-    <form onSubmit={handleSubmit} className="contact__form flex flex-col gap-4 border-1 p-4 rounded-lg">
+    <form onSubmit={handleSubmit} className="contact__form flex flex-col gap-4 border-1 p-6 rounded-lg">
       <h2 className={`${raleway.className} text-(--black) text-[2rem]`}>
         Send us a message
       </h2>

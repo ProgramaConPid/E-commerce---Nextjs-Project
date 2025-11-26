@@ -82,7 +82,7 @@ const ProductCard = ({ _id, images, name, price }: ProductCardProps) => {
         buttonBg="black"
         size="md"
         border="none"
-        onClick={handleAddToCart} // 👈 aquí va
+        onClick={handleAddToCart} 
       />
     </div>
   );

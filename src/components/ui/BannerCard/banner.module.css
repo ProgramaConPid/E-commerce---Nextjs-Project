@@ -1,5 +1,9 @@
 .banner__card {
   padding: 25px;
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .white {
@@ -35,4 +39,23 @@
 .banner__cardDescription {
   margin-block: 20px;
   text-align: left;
+}
+
+@media (max-width: 768px) {
+  .banner__card {
+    height: auto;
+    text-align: center;
+    display: grid;
+    place-items: center;
+  }
+
+  .banner__cardDescription {
+    text-align: center;
+  }
+
+  .banner__cardImg {
+    height: 200px;
+    width: 250px;
+  }
+  
 }

@@ -48,7 +48,7 @@ const Button = ({
         ${text === "Checkout" ? "w-full" : ""}
         ${text === "Not Allowed" ? "w-full opacity-50 cursor-not-allowed" : ""}
         ${rightIcon ? "flex items-center gap-3" : ""}
-        py-3 px-10 rounded-md cursor-pointer
+        py-3 px-10 rounded-md cursor-pointer duration-300
       `}
       disabled={text === "Not Allowed"} 
     >

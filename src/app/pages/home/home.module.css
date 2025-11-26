@@ -136,7 +136,7 @@
   padding-block: 30px;
   grid-area: macbook;
   background-color: var(--grey);
-  padding-left: 40px;
+  padding-left: 40px; 
 }
 
 .grid__macbookTexts {
@@ -160,10 +160,15 @@
 
 .grid__macbookImage {
   height: 100%;
-  width: 350px;
+  /* width: 350px; */
   object-fit: cover;
 }
 
+@media (width <= 1024px) {
+  .grid__hero {
+    display: none;
+  }
+}
 /* Browse Products By Category */
 .browse__products {
   padding-block: 80px;
@@ -196,9 +201,10 @@
 .browse__productsItems {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   gap: 1rem;
+  text-align: center;
 }
 
 .browse__productsItems > * {
@@ -259,6 +265,12 @@
   gap: 1.5rem;
 }
 
+@media (max-width: 768px) {
+  .container__products {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 /* Banners Cards Section */
 .banners__cards {
   width: auto;
@@ -266,6 +278,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .banners__cards {
+    flex-direction: column;
+  }
 }
 
 /* Products - Discount Section */

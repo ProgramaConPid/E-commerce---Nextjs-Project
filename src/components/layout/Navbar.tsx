@@ -78,7 +78,7 @@ export default function Navbar() {
               Blog
             </Link>
 
-            <Link href="/pages/publish" className="nav__link--item bg-(--black) cursor-pointer p-2 rounded-[.4rem] text-(--white)">
+            <Link href="/pages/publish" className="nav__link--item bg-(--black) cursor-pointer py-2 px-4 rounded-[.4rem] text-(--white)">
               Publish
             </Link>
           </div>

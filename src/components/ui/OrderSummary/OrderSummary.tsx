@@ -3,10 +3,7 @@ import { OrderSummaryProps } from "@/interfaces/main";
 import { raleway, nunitoSans } from "../../../app/fonts/mainFonts";
 import Button from "../Button";
 
-const OrderSummary = ({
-  cart,
-  onRedirectToCheckout
-}: OrderSummaryProps) => {
+const OrderSummary = ({ cart, onRedirectToCheckout }: OrderSummaryProps) => {
   const subtotal = cart.reduce(
     (acc, item) => acc + item.productId.price * item.quantity,
     0
@@ -53,26 +50,43 @@ const OrderSummary = ({
       <div className="order__summary--details mt-4 grid gap-4">
         <div className="order__summary--subtotal flex justify-between mb-2">
           <span className={`font-bold ${nunitoSans.className}`}>Subtotal</span>
-          <span className={`font-bold ${nunitoSans.className}`}>${subtotal.toFixed(2)}</span>
+          <span className={`font-bold ${nunitoSans.className}`}>
+            ${subtotal.toFixed(2)}
+          </span>
         </div>
 
         <div className="order__summary--tax flex justify-between mb-2">
           <span className={`${nunitoSans.className}`}>Estimated Tax</span>
-          <span className={`font-bold ${nunitoSans.className}`}>${tax.toFixed(2)}</span>
+          <span className={`font-bold ${nunitoSans.className}`}>
+            ${tax.toFixed(2)}
+          </span>
         </div>
 
         <div className="order__summary--shipping flex justify-between mb-2">
           <span className={` ${nunitoSans.className}`}>Shipping</span>
-          <span className={`font-bold ${nunitoSans.className}`}>${shipping.toFixed(2)}</span>
+          <span className={`font-bold ${nunitoSans.className}`}>
+            ${shipping.toFixed(2)}
+          </span>
         </div>
 
         <div className="order__summary--total flex justify-between mb-5">
-          <span className={`font-bold text-(--black) ${nunitoSans.className}`}>Total</span>
-          <span className={`font-bold text-(--black) ${nunitoSans.className}`}>${total.toFixed(2)}</span>
+          <span className={`font-bold text-(--black) ${nunitoSans.className}`}>
+            Total
+          </span>
+          <span className={`font-bold text-(--black) ${nunitoSans.className}`}>
+            ${total.toFixed(2)}
+          </span>
         </div>
       </div>
 
-      <Button text="Checkout" textColor="white" buttonBg="black" border="none" size="md" onClick={onRedirectToCheckout} />
+      <Button
+        text={cart.length === 0 ? "Not Allowed" : "Checkout"}
+        textColor="white"
+        buttonBg="black"
+        border="none"
+        size="md"
+        onClick={onRedirectToCheckout}
+      />
     </div>
   );
 };

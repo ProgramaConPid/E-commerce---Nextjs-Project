@@ -45,10 +45,12 @@ const Button = ({
         ${textColorClass}
         ${bgColorClass}
         ${borderClass}
-        ${text === "Checkout" ? "w-full" : "  "}
+        ${text === "Checkout" ? "w-full" : ""}
+        ${text === "Not Allowed" ? "w-full opacity-50 cursor-not-allowed" : ""}
         ${rightIcon ? "flex items-center gap-3" : ""}
         py-3 px-10 rounded-md cursor-pointer
       `}
+      disabled={text === "Not Allowed"} 
     >
       <span>{text}</span>
       {rightIcon}

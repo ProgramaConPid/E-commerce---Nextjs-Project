@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.11.1",
+    "@heroui/radio": "^2.3.27",
     "@heroui/react": "^2.8.5",
+    "@heroui/system": "^2.4.23",
+    "@heroui/theme": "^2.4.23",
     "@next/font": "^14.2.15",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",

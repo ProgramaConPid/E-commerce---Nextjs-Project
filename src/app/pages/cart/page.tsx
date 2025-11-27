@@ -13,6 +13,7 @@ import { ICartItemUI } from "@/interfaces/main";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export interface ICartItem {
   _id: string;
@@ -21,8 +22,13 @@ export interface ICartItem {
 }
 
 const CartPage = () => {
+  const router = useRouter();
   const { data: session } = useSession();
   const [cart, setCart] = useState<ICartItemUI[]>([]);
+
+  const onRedirectToCheckout = () => {
+    router.push("/pages/checkout");
+  }
 
   useEffect(() => {
     if (!session?.user?.id) return;
@@ -89,7 +95,7 @@ const CartPage = () => {
             ))}
           </div>
 
-          <OrderSummary cart={cart} onRedirectToCheckout={() => {}} />
+          <OrderSummary cart={cart} onRedirectToCheckout={onRedirectToCheckout} />
         </div>
       </div>
     </div>

@@ -6,11 +6,22 @@ export interface ICartItem {
   quantity: number;
 }
 
+export interface IAddress {
+  street?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  country?: string;
+  phone?: string;
+  place?: string; 
+}
+
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
   cart: ICartItem[];
+  addresses: IAddress[]; 
 }
 
 const CartItemSchema = new Schema<ICartItem>({
@@ -25,6 +36,16 @@ const CartItemSchema = new Schema<ICartItem>({
   },
 });
 
+const AddressSchema = new Schema<IAddress>({
+  street: { type: String },
+  city: { type: String },
+  state: { type: String },
+  zip: { type: String },
+  country: { type: String },
+  phone: { type: String },
+  place: { type: String },
+});
+
 const UserSchema: Schema<IUser> = new Schema(
   {
     name: { type: String, required: true },
@@ -33,6 +54,12 @@ const UserSchema: Schema<IUser> = new Schema(
 
     cart: {
       type: [CartItemSchema],
+      default: [],
+    },
+
+    // DIRECCIONES
+    addresses: {
+      type: [AddressSchema],
       default: [],
     },
   },

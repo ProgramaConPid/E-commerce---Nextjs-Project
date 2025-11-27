@@ -1,6 +1,5 @@
 import type { JSX } from "react";
 import { bannerBg, ButtonBorder, ButtonSize, TextColor } from '@/types/types';
-import { ICartItem } from "@/database/models/Users";
 import { IProduct } from "@/database/models/Products";
 
 type ButtonBg = "black" | "transparent";

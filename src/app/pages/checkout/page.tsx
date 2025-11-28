@@ -1,5 +1,6 @@
 "use client";
 
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { raleway, nunitoSans } from "@/app/fonts/mainFonts";
 import styles from "./checkout.module.css";
 import StepItem from "@/components/ui/StepItem";
@@ -31,6 +32,7 @@ const CheckoutPage = () => {
   const [activeCreditCard, setActiveCreditCard] = useState(true);
   const [activePaypal, setActivePaypal] = useState(false);
   const [activePaypalCredit, setActivePaypalCredit] = useState(false);
+  const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "";
 
   const handlePaymentMethod = (method: "card" | "paypal" | "paypalCredit") => {
     setActiveCreditCard(method === "card");
@@ -389,61 +391,160 @@ const CheckoutPage = () => {
                 </div>
               )}
 
-              {activePaypal && (
-                <div className={styles.paypal__method}>
-                  <Image
-                    src="/images/paypal-logo.png"
-                    alt="PayPal"
-                    width={300}
-                    height={150}
-                    className={styles.paypal__logo}
-                  />
-
-                  <p
-                    className={`${nunitoSans.className} ${styles.paypal__text}`}
-                  >
-                    You will be redirected to PayPal to securely complete your
-                    payment.
-                  </p>
-
-                  <div className={styles.paypal__summary}>
-                    <p>
-                      <strong>Total:</strong> ${checkout.total?.toFixed(2)}
-                    </p>
-                    <p>
-                      <strong>Shipping:</strong> {checkout.shippingMethod}
-                    </p>
-                    <p>
-                      <strong>Address:</strong> {checkout.addressInfo?.street},{" "}
-                      {checkout.addressInfo?.city}
-                    </p>
-                  </div>
-
-                  <div className={styles.form__actions}>
-                    <Button
-                      text="Back"
-                      buttonBg="transparent"
-                      textColor="black"
-                      border="black"
-                      size="md"
-                      onClick={handleBack}
+              <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID }}>
+                {activePaypal && (
+                  <div className={styles.paypal__method}>
+                    <Image
+                      src="/images/paypal-logo.png"
+                      alt="PayPal"
+                      width={300}
+                      height={150}
+                      className={styles.paypal__logo}
                     />
-                    <Button
-                      text="Pay with PayPal"
-                      buttonBg="black"
-                      textColor="white"
-                      border="none"
-                      size="md"
-                    />
+
+                    <p
+                      className={`${nunitoSans.className} ${styles.paypal__text}`}
+                    >
+                      You will be redirected to PayPal to securely complete your
+                      payment.
+                    </p>
+
+                    <div className={styles.paypal__summary}>
+                      <p>
+                        <strong>Total:</strong> ${checkout.total?.toFixed(2)}
+                      </p>
+                      <p>
+                        <strong>Shipping:</strong> {checkout.shippingMethod}
+                      </p>
+                      <p>
+                        <strong>Address:</strong> {checkout.addressInfo?.street}
+                        , {checkout.addressInfo?.city}
+                      </p>
+                    </div>
+
+                    <div className={styles.paypal__actions}>
+                      <Button
+                        text="Back"
+                        buttonBg="transparent"
+                        textColor="black"
+                        border="black"
+                        size="md"
+                        onClick={handleBack}
+                      />
+                      <PayPalButtons
+                        createOrder={async () => {
+                          try {
+                            if (!checkout.total || checkout.total <= 0) {
+                              throw new Error("Invalid total");
+                            }
+
+                            const res = await fetch(
+                              "/api/paypal/create-order",
+                              {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  total: checkout.total,
+                                }),
+                              }
+                            );
+
+                            if (!res.ok) {
+                              const err = await res.json();
+                              throw new Error(
+                                err.error || "Failed to create PayPal order"
+                              );
+                            }
+
+                            const data = await res.json();
+
+                            console.log("✅ CREATE ORDER RESPONSE:", data);
+
+                            if (!data.id) {
+                              throw new Error("PayPal did not return order ID");
+                            }
+
+                            return data.id; // ✅ PayPal usa este ID internamente
+                          } catch (error) {
+                            console.error("❌ CREATE ORDER ERROR:", error);
+                            alert(
+                              "There was a problem creating the PayPal order."
+                            );
+                            throw error;
+                          }
+                        }}
+                        onApprove={async (data) => {
+                          try {
+                            console.log("✅ ON APPROVE DATA:", data);
+
+                            if (!data.orderID) {
+                              throw new Error("Missing orderID from PayPal");
+                            }
+
+                            const res = await fetch(
+                              "/api/paypal/capture-order",
+                              {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  orderId: data.orderID,
+                                }),
+                              }
+                            );
+
+                            const result = await res.json();
+
+                            console.log("✅ CAPTURE RESPONSE:", result);
+
+                            if (!res.ok || result.status !== "COMPLETED") {
+                              throw new Error(
+                                result?.error || "Payment was not completed"
+                              );
+                            }
+
+                            // ✅ PAGO CONFIRMADO
+                            alert("✅ Payment successful!");
+
+                            // 🟢 Aquí ya puedes:
+                            // - limpiar carrito
+                            // - guardar orden en DB
+                            // - redirigir a success page
+                            // router.push("/checkout/success")
+                          } catch (error) {
+                            console.error("❌ CAPTURE ERROR:", error);
+                            alert("❌ Payment could not be completed.");
+                          }
+                        }}
+                        onError={(err) => {
+                          console.error("❌ PAYPAL ERROR:", err);
+                          alert("❌ PayPal communication error.");
+                        }}
+                        onCancel={() => {
+                          console.warn("⚠️ Payment cancelled by user");
+                          alert("Payment cancelled.");
+                        }}
+                        style={{
+                          layout: "horizontal",
+                          label: "pay",
+                          color: "gold",
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </PayPalScriptProvider>
 
               {activePaypalCredit && (
                 <div className={styles.paypalCredit__method}>
                   <h3 className={raleway.className}>PayPal Credit</h3>
 
-                  <Image src={"/images/paypal-credit-logo.jpg"} alt="Paypal Credit Banner" height={150} width={300} className={styles.paypal__creditLogo} />
+                  <Image
+                    src={"/images/paypal-credit-logo.jpg"}
+                    alt="Paypal Credit Banner"
+                    height={150}
+                    width={300}
+                    className={styles.paypal__creditLogo}
+                  />
 
                   <p className={`${nunitoSans.className}`}>
                     Buy now and pay later with PayPal Credit.

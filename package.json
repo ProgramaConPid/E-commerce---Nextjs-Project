@@ -18,6 +18,8 @@
     "@heroui/system": "^2.4.23",
     "@heroui/theme": "^2.4.23",
     "@next/font": "^14.2.15",
+    "@paypal/paypal-server-sdk": "^2.0.0",
+    "@paypal/react-paypal-js": "^8.9.2",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",

@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { Providers } from "@/providers/Providers";
 import { Provider } from "@/context/Provider";
 import { Toaster } from "sonner";
+import { CheckoutProvider } from "@/context/CheckoutContext";
 
 export const metadata: Metadata = {
   title: "Pidcommerce",
@@ -26,10 +27,12 @@ export default function RootLayout({
         <Provider>
           <Providers>
             <SessionProvider>
+              <CheckoutProvider>
               <Navbar />
               <main>{children}</main>
               <Footer />
               <Toaster position="top-right" />
+              </CheckoutProvider>
             </SessionProvider>
           </Providers>
         </Provider>

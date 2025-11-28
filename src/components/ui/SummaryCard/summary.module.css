@@ -1,0 +1,79 @@
+.summary__card {
+  padding: 20px;
+  border: 1px solid var(--bold-grey);
+  border-radius: .6rem;
+}
+
+.summary__cardTitle {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.card__itemsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item__card {
+  background-color: var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-radius: .6rem;
+}
+
+.item__infoName {
+  font-weight: 500;
+}
+
+.item__cardInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item__infoImage {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+}
+
+.item__price {
+  font-weight: bold;
+}
+
+.card__address {
+  margin: 1rem 0;
+  display: grid;
+  gap: .8rem;
+}
+
+.card__shipment {
+  margin-bottom: 1rem;
+  display: grid;
+  gap: .4rem;
+}
+
+.card__costs {
+  margin-top: 1.2rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.card__costs > * {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card__costs > * > span {
+  font-weight: bold;
+}
+
+.costs__subtotalTitle,
+.costs__totalTitle {
+  color: var(--black);
+  font-weight: bold;
+}

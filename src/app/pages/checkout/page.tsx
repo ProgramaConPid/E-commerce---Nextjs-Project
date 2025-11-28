@@ -18,6 +18,8 @@ import { useSession } from "next-auth/react";
 import AddressCard from "@/components/ui/AddressCard";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useCheckout } from "@/context/CheckoutContext";
+import SummaryCard from "@/components/ui/SummaryCard/SummaryCard";
 
 const CheckoutPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +28,18 @@ const CheckoutPage = () => {
   const [loadingAddresses, setLoadingAddresses] = useState(false);
   const { data: session } = useSession();
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const [activeCreditCard, setActiveCreditCard] = useState(true);
+  const [activePaypal, setActivePaypal] = useState(false);
+  const [activePaypalCredit, setActivePaypalCredit] = useState(false);
+
+  const handlePaymentMethod = (method: "card" | "paypal" | "paypalCredit") => {
+    setActiveCreditCard(method === "card");
+    setActivePaypal(method === "paypal");
+    setActivePaypalCredit(method === "paypalCredit");
+  };
+
   const router = useRouter();
+  const { checkout, setCheckout } = useCheckout();
 
   useEffect(() => {
     if (!session?.user?.id || activeStep !== 1) return;
@@ -62,18 +75,38 @@ const CheckoutPage = () => {
 
   const scheduledDates = [5, 7, 10, 15].map((days) => getFutureDate(days));
 
-  const [selectedShipment, setSelectedShipment] = useState("free");
+  const [selectedShipment, setSelectedShipment] = useState<
+    "free" | "express" | "schedule"
+  >("free");
 
   const handleNext = () => {
     if (activeStep === 1) {
-      if (!selectedAddress) {
-        toast.error("Please select an address to continue.")
+      const selected = addresses.find((addr) => addr._id === selectedAddress);
+
+      if (!selected) {
+        toast.error("Address not found.");
         return;
       }
 
+      setCheckout((prev) => ({
+        ...prev,
+        addressId: selected._id,
+        addressInfo: selected,
+      }));
+
       setActiveStep(2);
     }
-  }
+
+    if (activeStep === 2) {
+      setCheckout((prev) => ({
+        ...prev,
+        shippingMethod: selectedShipment,
+      }));
+
+      setActiveStep(3);
+      return;
+    }
+  };
 
   const handleBack = () => {
     if (activeStep === 1) {
@@ -81,13 +114,13 @@ const CheckoutPage = () => {
     }
 
     if (activeStep === 2) {
-      setActiveStep(1)
+      setActiveStep(1);
     }
 
     if (activeStep === 3) {
-      setActiveStep(2)
+      setActiveStep(2);
     }
-  }
+  };
 
   return (
     <div className={`container ${styles.checkout__section}`}>
@@ -139,7 +172,7 @@ const CheckoutPage = () => {
                   addresses.map((address) => (
                     <AddressCard
                       key={address._id}
-                      value={address._id} 
+                      value={address._id}
                       isSelected={selectedAddress === address._id}
                       city={address.city}
                       country={address.country}
@@ -150,7 +183,6 @@ const CheckoutPage = () => {
                       phone={address.phone}
                     />
                   ))}
-
 
                 <Image
                   onClick={() => setIsModalOpen(true)}
@@ -193,7 +225,9 @@ const CheckoutPage = () => {
             <div className={styles.shipping__container}>
               <RadioGroup
                 value={selectedShipment}
-                onValueChange={setSelectedShipment}
+                onValueChange={(value) =>
+                  setSelectedShipment(value as "free" | "express" | "schedule")
+                }
               >
                 <ShipmentMethod
                   value="free"
@@ -239,7 +273,205 @@ const CheckoutPage = () => {
                 buttonBg="black"
                 size="lg"
                 textColor="white"
+                onClick={handleNext}
               />
+            </div>
+          </div>
+        )}
+
+        {activeStep === 3 && (
+          <div className={styles.checkout__contentPayment}>
+            <SummaryCard />
+
+            <div className={styles.payment__methods}>
+              <h2
+                className={`${raleway.className} ${styles.payment__methodsTitle}`}
+              >
+                Payment
+              </h2>
+
+              <div className={styles.available__methods}>
+                <h3
+                  onClick={() => handlePaymentMethod("card")}
+                  className={`${raleway.className} ${
+                    styles.available__methodstTitle
+                  } ${activeCreditCard ? styles.active : styles.notActive}`}
+                >
+                  Credit Card
+                </h3>
+                <h3
+                  onClick={() => handlePaymentMethod("paypal")}
+                  className={`${raleway.className} ${
+                    styles.available__methodstTitle
+                  } ${activePaypal ? styles.active : styles.notActive}`}
+                >
+                  PayPal
+                </h3>
+                <h3
+                  onClick={() => handlePaymentMethod("paypalCredit")}
+                  className={`${raleway.className} ${
+                    styles.available__methodstTitle
+                  } ${activePaypalCredit ? styles.active : styles.notActive}`}
+                >
+                  PayPal Credit
+                </h3>
+              </div>
+
+              {activeCreditCard && (
+                <div className={styles.credit__cardMethod}>
+                  <Image
+                    className={styles.credit__cardImg}
+                    src={"/images/credit-card.png"}
+                    alt="Credit Card Image"
+                    height={200}
+                    width={350}
+                  />
+
+                  <form className={styles.credit__cardForm}>
+                    <input
+                      className={styles.input__creditCard}
+                      type="text"
+                      placeholder="Cardholder Name"
+                      name="cardholder"
+                    />
+                    <input
+                      className={styles.input__creditCard}
+                      type="text"
+                      placeholder="Card Number"
+                      name="number"
+                      maxLength={16}
+                    />
+                    <div className={styles.form__group}>
+                      <input
+                        className={styles.input__creditCard}
+                        type="text"
+                        placeholder="Exp. Date"
+                        name="date"
+                      />
+                      <input
+                        className={styles.input__creditCard}
+                        type="number"
+                        name="cvv"
+                        placeholder="CVV"
+                      />
+                    </div>
+
+                    <div className={styles.input__checkboxContainer}>
+                      <input type="checkbox" name="billing" />
+                      <label
+                        className={`${nunitoSans.className} ${styles.label}`}
+                        htmlFor="billing"
+                      >
+                        Same as billing address
+                      </label>
+                    </div>
+
+                    <div className={styles.form__actions}>
+                      <Button
+                        type="button"
+                        text="Back"
+                        buttonBg="transparent"
+                        textColor="black"
+                        border="black"
+                        size="md"
+                        onClick={handleBack}
+                      />
+                      <Button
+                        type="submit"
+                        text="Pay"
+                        buttonBg="black"
+                        textColor="white"
+                        border="black"
+                        size="md"
+                      />
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {activePaypal && (
+                <div className={styles.paypal__method}>
+                  <Image
+                    src="/images/paypal-logo.png"
+                    alt="PayPal"
+                    width={300}
+                    height={150}
+                    className={styles.paypal__logo}
+                  />
+
+                  <p
+                    className={`${nunitoSans.className} ${styles.paypal__text}`}
+                  >
+                    You will be redirected to PayPal to securely complete your
+                    payment.
+                  </p>
+
+                  <div className={styles.paypal__summary}>
+                    <p>
+                      <strong>Total:</strong> ${checkout.total?.toFixed(2)}
+                    </p>
+                    <p>
+                      <strong>Shipping:</strong> {checkout.shippingMethod}
+                    </p>
+                    <p>
+                      <strong>Address:</strong> {checkout.addressInfo?.street},{" "}
+                      {checkout.addressInfo?.city}
+                    </p>
+                  </div>
+
+                  <div className={styles.form__actions}>
+                    <Button
+                      text="Back"
+                      buttonBg="transparent"
+                      textColor="black"
+                      border="black"
+                      size="md"
+                      onClick={handleBack}
+                    />
+                    <Button
+                      text="Pay with PayPal"
+                      buttonBg="black"
+                      textColor="white"
+                      border="none"
+                      size="md"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {activePaypalCredit && (
+                <div className={styles.paypalCredit__method}>
+                  <h3 className={raleway.className}>PayPal Credit</h3>
+
+                  <Image src={"/images/paypal-credit-logo.jpg"} alt="Paypal Credit Banner" height={150} width={300} className={styles.paypal__creditLogo} />
+
+                  <p className={`${nunitoSans.className}`}>
+                    Buy now and pay later with PayPal Credit.
+                  </p>
+
+                  <div className={styles.paypal__summary}>
+                    <p>Total: ${checkout.total?.toFixed(2)}</p>
+                  </div>
+
+                  <div className={styles.form__actions}>
+                    <Button
+                      text="Back"
+                      buttonBg="transparent"
+                      textColor="black"
+                      border="black"
+                      size="md"
+                      onClick={handleBack}
+                    />
+                    <Button
+                      text="Continue with PayPal Credit"
+                      buttonBg="black"
+                      textColor="white"
+                      border="none"
+                      size="md"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -1,9 +1,11 @@
-import React from "react";
 import { OrderSummaryProps } from "@/interfaces/main";
 import { raleway, nunitoSans } from "../../../app/fonts/mainFonts";
 import Button from "../Button";
+import { useCheckout } from "@/context/CheckoutContext";
 
 const OrderSummary = ({ cart, onRedirectToCheckout }: OrderSummaryProps) => {
+  const { checkout, setCheckout } = useCheckout();
+
   const subtotal = cart.reduce(
     (acc, item) => acc + item.productId.price * item.quantity,
     0
@@ -85,7 +87,17 @@ const OrderSummary = ({ cart, onRedirectToCheckout }: OrderSummaryProps) => {
         buttonBg="black"
         border="none"
         size="md"
-        onClick={onRedirectToCheckout}
+        onClick={() => {
+          setCheckout((prev) => ({
+            ...prev,
+            subtotal,
+            tax,
+            shippingCost: shipping,
+            total,
+          }));
+
+          onRedirectToCheckout();
+        }}
       />
     </div>
   );

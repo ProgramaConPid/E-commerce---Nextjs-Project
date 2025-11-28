@@ -4,6 +4,7 @@ import { ButtonProps } from "@/interfaces/main";
 import { raleway } from "@/app/fonts/mainFonts";
 
 const Button = ({
+  type,
   text,
   textColor = "white",
   buttonBg = "black",
@@ -38,6 +39,7 @@ const Button = ({
 
   return (
     <button
+      type={type}
       onClick={onClick}
       className={`
         ${raleway.className}

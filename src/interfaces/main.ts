@@ -6,6 +6,7 @@ type ButtonBg = "black" | "transparent";
 
 export interface ButtonProps {
   text: string;
+  type?: "button" | "submit";
   textColor: TextColor;
   rightIcon?: JSX.Element;
   buttonBg: ButtonBg;

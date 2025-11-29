@@ -20,6 +20,9 @@ export async function middleware(req: NextRequest) {
     "/pages/about",
     "/pages/blog",
     "/pages/contact",
+    "/pages/publish",
+    "/pages/cart",
+    "/pages/checkout"
   ];
 
   if (!token && protectedPaths.some((path) => pathname.startsWith(path))) {

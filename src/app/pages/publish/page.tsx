@@ -64,7 +64,7 @@ const SPECS_BY_CATEGORY = {
     { name: "mount", placeholder: "e.g., EF Lens Mount" },
     { name: "screen", placeholder: "e.g.,  '5' Touchscreen" },
   ],
-  Smartwatches: [
+  "Smart Watches": [
     { name: "screen", placeholder: "e.g., Super AMOLED" },
     { name: "chip", placeholder: "e.g., Exynos W930" },
     { name: "battery", placeholder: "e.g., 284mAh" },
@@ -185,13 +185,19 @@ const PublisProduct = () => {
     if (!formData.description.trim())
       return toast.error("Description is required");
 
-    if (!formData.screen.trim())
-      return toast.error("Screen specification is required");
+    const requiredSpecs =
+      SPECS_BY_CATEGORY[formData.category as keyof typeof SPECS_BY_CATEGORY] ||
+      [];
 
-    if (!formData.processor.trim()) return toast.error("Processor is required");
+    for (const spec of requiredSpecs) {
+      const value = formData.specs[spec.name];
 
-    if (!formData.battery.trim())
-      return toast.error("Battery info is required");
+      if (!value || !value.trim()) {
+        return toast.error(
+          `${spec.name.replace(/([A-Z])/g, " $1").toUpperCase()} is required`
+        );
+      }
+    }
 
     if (!formData.stock.trim() || Number(formData.stock) < 0)
       return toast.error("Stock must be a valid number");
@@ -210,20 +216,46 @@ const PublisProduct = () => {
     fd.append("category", formData.category);
     fd.append("price", formData.price);
     fd.append("description", formData.description);
-    fd.append("screen", formData.screen);
-    fd.append("processor", formData.processor);
-    fd.append("battery", formData.battery);
     fd.append("stock", formData.stock);
     fd.append("delivery", formData.delivery);
     fd.append("warranty", formData.warranty);
+
+    Object.entries(formData.specs).forEach(([key, value]) => {
+      fd.append(key, value);
+    });
 
     formData.tags.forEach((tag) => fd.append("tags", tag));
     formData.colors.forEach((color) => fd.append("colors", color));
     formData.images.forEach((file) => fd.append("images", file));
 
     const res = await createProduct(fd);
+
     toast.success("Product created successfully! 🎉");
     console.log(res);
+
+    setFormData({
+      name: "",
+      category: "",
+      price: "",
+      tags: [],
+      colors: [],
+      description: "",
+      screen: "",
+      processor: "",
+      battery: "",
+      stock: "",
+      delivery: "",
+      warranty: "",
+      images: [],
+      specs: {},
+    });
+
+    setImagePreviews([]);
+
+    const fileInput = document.getElementById(
+      "productImages"
+    ) as HTMLInputElement;
+    if (fileInput) fileInput.value = "";
   };
 
   return (
@@ -282,7 +314,7 @@ const PublisProduct = () => {
                 <option value="Computers">Computers</option>
                 <option value="Headphones">Headphones</option>
                 <option value="Cameras">Cameras</option>
-                <option value="Smart-watches">Smart Watches</option>
+                <option value="Smart Watches">Smart Watches</option>
                 <option value="Gaming">Gaming</option>
               </select>
             </div>

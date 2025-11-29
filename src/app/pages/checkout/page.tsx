@@ -33,6 +33,8 @@ const CheckoutPage = () => {
   const [activePaypal, setActivePaypal] = useState(false);
   const [activePaypalCredit, setActivePaypalCredit] = useState(false);
   const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "";
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   const handlePaymentMethod = (method: "card" | "paypal" | "paypalCredit") => {
     setActiveCreditCard(method === "card");
@@ -391,7 +393,9 @@ const CheckoutPage = () => {
                 </div>
               )}
 
-              <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID }}>
+              <PayPalScriptProvider
+                options={{ clientId: PAYPAL_CLIENT_ID, intent: "capture" }}
+              >
                 {activePaypal && (
                   <div className={styles.paypal__method}>
                     <Image
@@ -433,100 +437,57 @@ const CheckoutPage = () => {
                       />
                       <PayPalButtons
                         createOrder={async () => {
-                          try {
-                            if (!checkout.total || checkout.total <= 0) {
-                              throw new Error("Invalid total");
-                            }
+                          const res = await fetch("/api/paypal/create-order", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              total: checkout.total,
+                            }),
+                          });
 
-                            const res = await fetch(
-                              "/api/paypal/create-order",
-                              {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                  total: checkout.total,
-                                }),
-                              }
-                            );
+                          const data = await res.json();
 
-                            if (!res.ok) {
-                              const err = await res.json();
-                              throw new Error(
-                                err.error || "Failed to create PayPal order"
-                              );
-                            }
+                          console.log("🧾 CREATE ORDER RESPONSE:", data);
 
-                            const data = await res.json();
-
-                            console.log("✅ CREATE ORDER RESPONSE:", data);
-
-                            if (!data.id) {
-                              throw new Error("PayPal did not return order ID");
-                            }
-
-                            return data.id; // ✅ PayPal usa este ID internamente
-                          } catch (error) {
-                            console.error("❌ CREATE ORDER ERROR:", error);
-                            alert(
-                              "There was a problem creating the PayPal order."
-                            );
-                            throw error;
+                          if (!data.id) {
+                            throw new Error("PayPal no devolvió ID");
                           }
+
+                          return data.id;
                         }}
                         onApprove={async (data) => {
-                          try {
-                            console.log("✅ ON APPROVE DATA:", data);
+                          console.log("✅ PAYPAL APPROVED DATA:", data);
 
-                            if (!data.orderID) {
-                              throw new Error("Missing orderID from PayPal");
-                            }
+                          if (!data.orderID) {
+                            console.error("⛔ NO LLEGÓ ORDERID DESDE PAYPAL");
+                            return;
+                          }
 
-                            const res = await fetch(
-                              "/api/paypal/capture-order",
-                              {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                  orderId: data.orderID,
-                                }),
-                              }
+                          const res = await fetch("/api/paypal/capture-order", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              orderId: data.orderID,
+                            }),
+                          });
+
+                          const result = await res.json();
+
+                          console.log("✅ CAPTURE RESPONSE:", typeof result);
+
+                          if (result.status === "COMPLETED") {
+                            setShowSuccessModal(true);
+                          } else {
+                            toast.error(
+                              "❌ Paypal Does not complete the payment."
                             );
-
-                            const result = await res.json();
-
-                            console.log("✅ CAPTURE RESPONSE:", result);
-
-                            if (!res.ok || result.status !== "COMPLETED") {
-                              throw new Error(
-                                result?.error || "Payment was not completed"
-                              );
-                            }
-
-                            // ✅ PAGO CONFIRMADO
-                            alert("✅ Payment successful!");
-
-                            // 🟢 Aquí ya puedes:
-                            // - limpiar carrito
-                            // - guardar orden en DB
-                            // - redirigir a success page
-                            // router.push("/checkout/success")
-                          } catch (error) {
-                            console.error("❌ CAPTURE ERROR:", error);
-                            alert("❌ Payment could not be completed.");
                           }
                         }}
-                        onError={(err) => {
-                          console.error("❌ PAYPAL ERROR:", err);
-                          alert("❌ PayPal communication error.");
-                        }}
                         onCancel={() => {
-                          console.warn("⚠️ Payment cancelled by user");
-                          alert("Payment cancelled.");
+                          setShowCancelModal(true);
                         }}
-                        style={{
-                          layout: "horizontal",
-                          label: "pay",
-                          color: "gold",
+                        onError={(err) => {
+                          console.error("❌ PAYPAL JS ERROR:", err);
                         }}
                       />
                     </div>
@@ -576,6 +537,99 @@ const CheckoutPage = () => {
             </div>
           </div>
         )}
+        {showSuccessModal && (
+          <div className={styles.modal__overlay}>
+            <div className={styles.modal}>
+              <h2 className={raleway.className}>✅ Payment Successful</h2>
+
+              <p className={nunitoSans.className}>
+                Your payment has been completed successfully.
+              </p>
+
+              <div className={styles.modal__summary}>
+                <p>
+                  <strong>Total:</strong> ${checkout.total?.toFixed(2)}
+                </p>
+                <p>
+                  <strong>Shipping:</strong> {checkout.shippingMethod}
+                </p>
+                <p>
+                  <strong>Address:</strong> {checkout.addressInfo?.street},{" "}
+                  {checkout.addressInfo?.city}, {checkout.addressInfo?.country}
+                </p>
+              </div>
+
+              <div className={styles.modal__actions}>
+                <Button
+                  text="Go to Orders"
+                  buttonBg="black"
+                  textColor="white"
+                  border="none"
+                  size="md"
+                  onClick={() => router.push("/orders")}
+                />
+
+                <Button
+                  text="Close"
+                  buttonBg="transparent"
+                  textColor="black"
+                  border="black"
+                  size="md"
+                  onClick={() => setShowSuccessModal(false)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showCancelModal && (
+          <div className={styles.modal__overlay}>
+            <div className={styles.modal}>
+              <h2 className={raleway.className}>❌ Payment Cancelled</h2>
+
+              <p className={nunitoSans.className}>
+                Your payment was cancelled. No charges were applied.
+              </p>
+
+              <div className={styles.modal__summary}>
+                <p>
+                  <strong>Total:</strong> ${checkout.total?.toFixed(2)}
+                </p>
+                <p>
+                  <strong>Shipping:</strong> {checkout.shippingMethod}
+                </p>
+                <p>
+                  <strong>Address:</strong> {checkout.addressInfo?.street},{" "}
+                  {checkout.addressInfo?.city}, {checkout.addressInfo?.country}
+                </p>
+              </div>
+
+              <div className={styles.modal__actions}>
+                <Button
+                  text="Try Again"
+                  buttonBg="black"
+                  textColor="white"
+                  border="none"
+                  size="md"
+                  onClick={() => {
+                    setShowCancelModal(false);
+                    handlePaymentMethod("paypal");
+                  }}
+                />
+
+                <Button
+                  text="Back to Cart"
+                  buttonBg="transparent"
+                  textColor="black"
+                  border="black"
+                  size="md"
+                  onClick={() => router.push("/pages/cart")}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         <AddressModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

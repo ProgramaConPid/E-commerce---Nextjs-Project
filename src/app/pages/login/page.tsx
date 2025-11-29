@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "@/services/userLogged";
-import { logginMail } from "@/constant/emails/logginMail";
+import { welcomeMail } from "@/constant/emails/logginMail";
 import Link from "next/link";
 import Image from "next/image";
 import { myContext } from "@/context/Context";
@@ -55,7 +55,7 @@ export default function LoginPage() {
         sendEmail({
           email: form.email,
           asunto: "Login successfully",
-          mensajeHtml: logginMail,
+          mensajeHtml: welcomeMail,
         });
       }
     } catch (err: unknown) {

@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
-import { Client, Environment, OrdersController } from "@paypal/paypal-server-sdk";
+import {
+  Client,
+  Environment,
+  OrdersController,
+} from "@paypal/paypal-server-sdk";
 
-// ✅ Cliente PayPal configurado correctamente
 const client = new Client({
   environment: Environment.Sandbox,
   clientCredentialsAuthCredentials: {
@@ -10,33 +13,33 @@ const client = new Client({
   },
 });
 
-// ✅ Controlador
 const ordersController = new OrdersController(client);
 
 export async function POST(req: Request) {
   try {
     const { orderId } = await req.json();
 
-    // ✅ Validación
+    console.log("📩 ORDERID RECIBIDO:", orderId);
+
     if (!orderId) {
-      return NextResponse.json({ error: "OrderId is required" }, { status: 400 });
+      return NextResponse.json({ error: "Order ID missing" }, { status: 400 });
     }
 
-    // ✅ Capturar orden en PayPal
     const response = await ordersController.captureOrder({
       id: orderId,
     });
 
-    // ✅ Éxito → Devuelve respuesta completa de PayPal
-    return NextResponse.json(response.body, { status: 200 });
+    console.log("✅ CAPTURE RESULT:", response.body);
 
+    return NextResponse.json(JSON.parse(response.body as string));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.error("PayPal Capture Error:", error);
+    console.error("❌ CAPTURE ERROR:", error?.result || error);
 
     return NextResponse.json(
       {
-        message: "PayPal capture failed",
-        details: error?.message || error,
+        error: "Capture failed",
+        details: error?.result || "Unknown error",
       },
       { status: 500 }
     );

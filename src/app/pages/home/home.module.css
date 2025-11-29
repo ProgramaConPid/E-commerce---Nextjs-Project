@@ -1,0 +1,338 @@
+/* Hero Section */
+.hero {
+  width: auto;
+  background: var(--hero-purple);
+}
+
+.hero__content {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero__contentSpan {
+  color: var(--grey-color);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.hero__contentTitle {
+  color: var(--white);
+  font-size: 4.5rem;
+  font-weight: lighter;
+  margin-bottom: .4rem;
+}
+
+.hero__contentTitleSpan {
+  font-weight: bold;
+}
+
+.hero__contentDescription {
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+}
+
+.hero__image {
+  height: 100%;
+  width: 400px;
+}
+
+/* Hero Grid Section */
+.grid__hero {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 
+  "playstation playstation macbook macbook"
+  "airpods applevision macbook macbook"
+  ;
+}
+
+.grid__heroContent {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+}
+
+.grid__texts {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: .5rem;
+}
+
+.grid__textsDescription {
+  font-size: 18px;
+}
+
+.grid__airpodsTexts,
+.grid__applevisionTexts {
+  width: 180px;
+  margin: auto;
+}
+
+.grid__playstationImage {
+  height: 100%;
+  width: 50%;
+  max-width: 450px;
+}
+
+.grid__applevisionImage {
+  width: 160px;
+}
+
+.grid__playstation {
+  height: 350px;
+  grid-area: playstation;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+.grid__playstationTexts {
+  width: 60%;
+  max-width: 380px;
+  margin: auto;
+}
+
+.grid__playstationTitle {
+  font-size: 2.5rem;
+}
+
+.grid__airpods {
+  grid-area: airpods;
+  background-color: var(--grey);
+  padding-right: 20px;
+}
+
+.grid__airpodsTitle {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.grid__airpodsTitle span {
+  font-weight: bold;
+}
+
+.grid__applevision {
+  color: var(--white);
+  grid-area: applevision;
+  background-color: var(--charcoal);
+  padding-block: 10px;
+  padding-right: 20px;
+}
+
+.grid__applevisionTitle {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.grid__applevisionTitle span {
+  font-weight: bold;
+}
+
+.grid__macbook {
+  padding-block: 30px;
+  grid-area: macbook;
+  background-color: var(--grey);
+  padding-left: 40px; 
+}
+
+.grid__macbookTexts {
+  width: 60%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.grid__macbookTitle {
+  font-weight: lighter;
+  font-size: clamp(2rem, 8vw, 3rem);
+}
+
+.grid__macbookTitle span {
+  font-weight: bold;
+}
+
+.grid__macbookDescription {
+  margin-bottom: 1rem;
+}
+
+.grid__macbookImage {
+  height: 100%;
+  /* width: 350px; */
+  object-fit: cover;
+}
+
+@media (width <= 1024px) {
+  .grid__hero {
+    display: none;
+  }
+}
+/* Browse Products By Category */
+.browse__products {
+  padding-block: 80px;
+  background-color: var(--white-grey);
+}
+
+.browse__productsContainer {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.browse__productsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.browse__productsTitle {
+  font-size: inherit;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 6vw, 1.8rem);
+}
+
+.browse__productsArrows {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.browse__productsItems {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: center;
+}
+
+.browse__productsItems > * {
+  flex: 1;
+  cursor: pointer;
+  transition: 400ms ease all;
+}
+
+.browse__productsItems > *:hover {
+  background-color: var(--black);
+  color: var(--white);
+  transform: translateY(-5px);
+}
+
+.browse__productsArrows > * {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.browse__productsItem {
+  background-color: var(--bold-grey);
+  padding: 30px;
+  display: grid;
+  place-items: center;
+  gap: 2rem;
+  border-radius: .6rem;
+}
+
+.browse__productsItem > *:not(h3) {
+  font-size: 40px;
+}
+
+/* Products Section */
+.products__section {
+  padding-block: 80px;
+}
+
+.products__tags {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+}
+
+.products__tagsText {
+  font-size: 1.1rem;
+  padding-bottom: 5px;
+}
+
+.products__tagsText.active {
+  border-bottom: 1px solid var(--black);
+}
+
+.container__products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .container__products {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* Banners Cards Section */
+.banners__cards {
+  width: auto;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .banners__cards {
+    flex-direction: column;
+  }
+}
+
+/* Products - Discount Section */
+.products__sectionDiscount {
+  padding-block: 80px;
+}
+
+.products__sectionDiscountTitle {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.container__productsDiscount {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-rows: auto;
+  gap: 1rem;
+}
+
+/* Banner Summer Section */
+.banner__summerSection {
+  min-height: 65vh;
+  width: auto;
+  background-image: url("/images/banners/banner-summer-sale.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner__summerTexts {
+  display: grid;
+  place-items: center;
+}
+
+.banner__textsTitle {
+  color: var(--white);
+  font-weight: 200;
+  font-size: clamp(1.3rem, 8vw, 5rem);
+}
+
+.banner__textsTitle span {
+  font-weight: bold;
+}
+
+.banner__textsDescription {
+  font-size: 17px;
+  margin-bottom: 1rem;
+}

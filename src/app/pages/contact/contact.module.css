@@ -1,0 +1,116 @@
+
+.contact__section {
+  margin-block: 80px;
+}
+
+.contact__sectionTitle {
+  text-align: center;
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  margin-bottom: 1rem;
+}
+
+.contact__sectionDescription {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  color: var(--grey-color);
+}
+
+.contact__sectionContent {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.contact__contentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.content__infoBox,
+.content__infoSupport {
+  padding: 24px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 0.8rem;
+  background-color: var(--white);
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.content__infoTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.content__infoItems,
+.content__supportItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.support__item,
+.content__infoItem {
+  padding: 16px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  border-radius: 0.6rem;
+  border: 1px solid rgba(0,0,0,0.06);
+
+  background-color: var(--white);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.support__item:hover,
+.content__infoItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.support__item {
+  background-color: #DDD6FF;
+}
+
+.info__itemIcon,
+.support__itemIcon {
+  padding: 14px;
+  border-radius: 0.4rem;
+  background-color: #DDD6FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.support__itemIcon {
+  background-color: var(--white);
+}
+
+.item__textTitle {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.item__textEmail {
+  color: var(--text-grey);
+  font-weight: 300;
+}
+
+.item__textDescription {
+  font-weight: 300;
+  color: var(--text-grey);
+}
+
+.content__infoItem:not(:last-child) {
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+@media (max-width: 900px) {
+  .contact__sectionContent {
+    grid-template-columns: 1fr;
+  }
+}

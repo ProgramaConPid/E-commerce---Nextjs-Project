@@ -2,7 +2,6 @@
 
 import { useContext, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { sendEmail } from "@/services/userLogged";
 import { welcomeMail } from "@/constant/emails/logginMail";
 import Link from "next/link";
@@ -11,7 +10,6 @@ import { myContext } from "@/context/Context";
 import { motion } from "framer-motion";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -50,7 +48,9 @@ export default function LoginPage() {
           });
         }
 
-        router.push("/pages/home");
+        setTimeout(() => {
+          window.location.href = "/pages/home";
+        }, 150);
 
         sendEmail({
           email: form.email,
@@ -123,9 +123,7 @@ export default function LoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Your Password"
-                onChange={(e) =>
-                  setForm({ ...form, password: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
                 className="w-full px-4 py-2 pr-12 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                 required
               />

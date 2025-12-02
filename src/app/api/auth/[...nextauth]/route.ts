@@ -4,6 +4,8 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/database/models/Users";
+import { loginSchema } from "@/validators/login.schema";
+import { ValidationError } from "yup";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,25 +16,31 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Por favor ingresa tus credenciales");
+        try {
+          await loginSchema.validate(credentials, { abortEarly: false });
+
+          await connectDB();
+          const user = await User.findOne({ email: credentials!.email });
+          if (!user) throw new Error("User not found");
+
+          const isValid = await bcrypt.compare(
+            credentials!.password,
+            user.password
+          );
+          if (!isValid) throw new Error("Invalid password");
+
+          return {
+            id: String(user._id),
+            name: user.name,
+            email: user.email,
+          };
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          if (error instanceof ValidationError) {
+            throw new Error(error.errors.join(" • "));
+          }
+          throw new Error(error.message || "Login failed");
         }
-
-        await connectDB();
-        const user = await User.findOne({ email: credentials.email });
-        if (!user) throw new Error("Usuario no encontrado");
-
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-        if (!isValid) throw new Error("Contraseña incorrecta");
-
-        return {
-          id: String(user._id),
-          name: user.name,
-          email: user.email,
-        };
       },
     }),
 

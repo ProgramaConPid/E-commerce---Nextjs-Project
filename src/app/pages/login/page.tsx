@@ -35,7 +35,7 @@ export default function LoginPage() {
       });
 
       if (res?.error) {
-        setError("Incorrect credentials or user not found.");
+        setError(res.error)
       } else {
         const sessionRes = await fetch("/api/auth/session");
         const session = await sessionRes.json();
@@ -104,11 +104,10 @@ export default function LoginPage() {
           >
             <span className="text-sm font-medium text-gray-200">Email</span>
             <input
-              type="email"
+              type="text"
               placeholder="johndoe@example.com"
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               className="mt-2 w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              required
             />
           </motion.label>
 
@@ -125,7 +124,6 @@ export default function LoginPage() {
                 placeholder="Your Password"
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 className="w-full px-4 py-2 pr-12 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-                required
               />
               <motion.button
                 whileTap={{ scale: 0.9 }}

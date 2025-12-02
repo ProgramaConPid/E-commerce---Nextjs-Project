@@ -23,26 +23,10 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const validate = (data: FormData) => {
-    if (!data.name.trim()) return "Name is required.";
-    if (!data.email.trim()) return "Email is required.";
-    const emailRe = /^\S+@\S+\.\S+$/;
-    if (!emailRe.test(data.email)) return "Enter a valid email.";
-    if (data.password.length < 6)
-      return "The password must be at least 6 characters long.";
-    return null;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
-
-    const v = validate(form);
-    if (v) {
-      setError(v);
-      return;
-    }
 
     try {
       setLoading(true);
@@ -53,9 +37,13 @@ export default function RegisterPage() {
       });
 
       const data = await res.json();
+
       if (!res.ok) {
-        setError(data.error || "Error al registrarse");
-        setLoading(false);
+        if (Array.isArray(data.errors)) {
+          setError(data.errors.join(" • "));
+        } else {
+          setError(data.error || data.message || "Registro fallido");
+        }
         return;
       }
 
@@ -115,7 +103,6 @@ export default function RegisterPage() {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Your name"
               className="mt-2 w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
-              required
             />
           </motion.label>
 
@@ -127,12 +114,11 @@ export default function RegisterPage() {
           >
             Email
             <input
-              type="email"
+              type="text"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="youremail@example.com"
               className="mt-2 w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
-              required
             />
           </motion.label>
 
@@ -147,12 +133,9 @@ export default function RegisterPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 value={form.password}
-                onChange={(e) =>
-                  setForm({ ...form, password: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
                 placeholder="At least 6 characters"
                 className="w-full px-4 py-2 pr-12 rounded-lg bg-gray-800 border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                required
               />
               <motion.button
                 whileTap={{ scale: 0.9 }}
